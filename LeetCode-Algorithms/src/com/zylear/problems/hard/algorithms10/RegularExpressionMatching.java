@@ -29,11 +29,11 @@ public class RegularExpressionMatching {
             line = in.readLine();
             String p = stringToString(line);
             long time = System.currentTimeMillis();
-            boolean ret = new Solution().isMatch(s, p);
+            boolean ret = new SolutionV2().isMatch(s, p);
             System.out.println("time: " + (System.currentTimeMillis() - time));
             String out = booleanToString(ret);
 
-            System.out.print(out);
+            System.out.println(out);
         }
     }
 
@@ -80,6 +80,57 @@ public class RegularExpressionMatching {
             }
             return stringBuilder.toString();
         }
+    }
+
+    static class SolutionV2 {
+        //            1, If p.charAt(j) == s.charAt(i) :  dp[i][j] = dp[i-1][j-1];
+//                    2, If p.charAt(j) == '.' : dp[i][j] = dp[i-1][j-1];
+//                    3, If p.charAt(j) == '*':
+//                         here are two sub conditions:
+//                            1   if p.charAt(j-1) != s.charAt(i) : dp[i][j] = dp[i][j-2]  //in this case, a* only counts as empty
+//                            2   if p.charAt(i-1) == s.charAt(i) or p.charAt(i-1) == '.':
+//                                     dp[i][j] = dp[i-1][j]    //in this case, a* counts as multiple a
+//                                 or dp[i][j] = dp[i][j-1]   // in this case, a* counts as single a
+//                                 or dp[i][j] = dp[i][j-2]   // in this case, a* counts as empty
+
+        public boolean isMatch(String string, String pattern) {
+
+            if (string == null || pattern == null) {
+                return false;
+            }
+            boolean[][] dp = new boolean[string.length() + 1][pattern.length() + 1];
+            dp[0][0] = true;
+            for (int j = 0; j < pattern.length(); j++) {
+                int dp_j = j + 1;
+                if (pattern.charAt(j) == '*' && dp[0][dp_j - 2]) {
+                    dp[0][dp_j] = true;
+                }
+            }
+
+            for (int i = 0; i < string.length(); i++) {
+                for (int j = 0; j < pattern.length(); j++) {
+                    int dp_i = i + 1;
+                    int dp_j = j + 1;
+
+                    if (pattern.charAt(j) == string.charAt(i) || pattern.charAt(j) == '.') {
+                        dp[dp_i][dp_j] = dp[dp_i - 1][dp_j - 1];
+                    }
+
+                    if (pattern.charAt(j) == '*') {
+                        if (pattern.charAt(j - 1) == string.charAt(i) || pattern.charAt(j - 1) == '.') {
+                            dp[dp_i][dp_j] = dp[dp_i][dp_j - 2]   //in this case, a* counts as empty
+                                    || dp[dp_i][dp_j - 1]         //in this case, a* counts as single a
+                                    || dp[dp_i - 1][dp_j];        //in this case, a* counts as multiple a
+                        } else {
+                            dp[dp_i][dp_j] = dp[dp_i][dp_j - 2];
+                        }
+                    }
+                }
+            }
+            return dp[string.length()][pattern.length()];
+        }
+
+
     }
 
 

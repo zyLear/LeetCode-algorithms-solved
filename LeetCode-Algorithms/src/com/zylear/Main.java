@@ -3,13 +3,13 @@ package com.zylear;
 public class Main {
 
     public static void main(String[] args) {
-
+        System.out.println("".matches("."));
 
 //        System.out.println(Integer.highestOneBit(-1231233243));
 
-        System.out.println(highestOneBit1(-1));
-        System.out.println();
-        System.out.println(highestOneBit2(-1));
+//        System.out.println(highestOneBit1(-1));
+//        System.out.println();
+//        System.out.println(highestOneBit2(-1));
 
 
 //        Integer integer = new Integer();
