@@ -1,17 +1,53 @@
 package com.zylear.problems.test;
 
+import java.util.*;
+
 /**
  * Created by xiezongyu on 2020/2/9.
  */
-// 本题为考试单行多行输入输出规范示例，无需提交，不计分。
-import java.util.Scanner;
 public class Main {
+
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        while (in.hasNextInt()) {// 注意，如果输入是多个测试用例，请通过while循环处理多个测试用例
-            int a = in.nextInt();
-            int b = in.nextInt();
-            System.out.println(a + b);
+        String string = "abc";
+        char[] chars = string.toCharArray();
+        System.out.println(new StringBuilder(string).reverse().toString());
+        for (int i = 0; i < chars.length - 1 - i; i++) {
+            char temp = chars[i];
+            chars[i]=   chars[chars.length - 1 - i];
+            chars[chars.length - 1 - i] = temp;
         }
+        for (char aChar : chars) {
+            System.out.println(aChar);
+        }
+
     }
+    public String[] fun(Set<String> whiteList, Set<String> totalSet) {
+
+        String[] output = new String[20000];
+        int count = 19999;
+        Iterator<String> iterator = totalSet.iterator();
+        while (iterator.hasNext()) {
+            String string = iterator.next();
+            if (whiteList.contains(string)) {
+                output[count] = string;
+                count--;
+                iterator.remove();
+            }
+        }
+
+        ArrayList<String> list = new ArrayList<>(totalSet);
+        HashSet<Integer> randomSet = new HashSet<>();
+        for (int i = 0; i < count; i++) {
+            int random = new Random().nextInt(list.size());
+            while (randomSet.contains(random)) {
+                random = (random + 1) % list.size();
+            }
+            randomSet.add(random);
+            output[i] = list.get(random);
+        }
+
+        return output;
+    }
+
+
 }
