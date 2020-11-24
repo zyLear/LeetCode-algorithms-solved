@@ -77,8 +77,25 @@ public class P35SearchInsertPosition {
 //            } else {
 //                return lower + 1;
 //            }
+
+
+            /*
+            延申结论： 重要！！！！！
+             一、while (lower < upper)  这个判断条件跳出去的最终lower==upper
+             二、while (lower <= upper)
+                这个情况最终跳出去是
+                 lower = upper + 1
+                 upper < lower
+                 array[upper]  <  target  <  array[lower]   这个关系很重要
+
+                 这道题的意思是找大于等于target的第一个index位置  从上面公式来看就是取lower
+                 开平方那道题就是取小于等于target的第一个index位置  从上面公式来看就是取upper
+             */
+
             return lower;
         }
+
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
