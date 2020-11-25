@@ -70,8 +70,11 @@ public class RemoveElement27 {
         Solution solution = new RemoveElement27().new Solution();
     }
 
+
+
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        //双指针  在同一个数组操作
         public int removeElement(int[] nums, int val) {
             int count = 0;
             for (int i = 0; i < nums.length; i++) {
