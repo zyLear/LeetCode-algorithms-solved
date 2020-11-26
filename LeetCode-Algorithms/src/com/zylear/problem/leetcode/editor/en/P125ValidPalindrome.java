@@ -35,7 +35,7 @@ public class P125ValidPalindrome {
         Solution solution = new P125ValidPalindrome().new Solution();
         // TO TEST
 
-        System.out.println(solution.isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(solution.isPalindrome("0P"));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -49,14 +49,14 @@ public class P125ValidPalindrome {
 
             while (lower <= upper) {
 
-               if(((s.charAt(lower) < 'a' || s.charAt(lower) > 'z') &&
+                if (((s.charAt(lower) < 'a' || s.charAt(lower) > 'z') &&
                         (s.charAt(lower) < 'A' || s.charAt(lower) > 'Z')) &&
                         (s.charAt(lower) < '0' || s.charAt(lower) > '9')) {
                     lower++;
                     continue;
                 }
 
-               if(((s.charAt(upper) < 'a' || s.charAt(upper) > 'z') &&
+                if (((s.charAt(upper) < 'a' || s.charAt(upper) > 'z') &&
                         (s.charAt(upper) < 'A' || s.charAt(upper) > 'Z')) &&
                         (s.charAt(upper) < '0' || s.charAt(upper) > '9')) {
                     upper--;
@@ -67,9 +67,10 @@ public class P125ValidPalindrome {
                     break;
                 }
 
-                if (s.charAt(lower) != s.charAt(upper) ||
-                        s.charAt(lower) - 'A'+'a' != s.charAt(upper) ||
-                        s.charAt(lower) + 'A'-'a' != s.charAt(upper)) {
+                int lowerChar = s.charAt(lower) < 'a' ? s.charAt(lower) + 'a' - 'A' : s.charAt(lower);
+                int upperChar = s.charAt(upper) < 'a' ? s.charAt(upper) + 'a' - 'A' : s.charAt(upper);
+
+                if (lowerChar != upperChar) {
                     return false;
                 }
                 lower++;
