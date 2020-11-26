@@ -31,8 +31,8 @@ public class P67AddBinary {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public String addBinary(String a, String b) {
-            int add = 0;
             StringBuilder stringBuilder = new StringBuilder();
+            int add = 0;
             int i = a.length() - 1;
             int j = b.length() - 1;
             while (i >= 0 || j >= 0 || add > 0) {
