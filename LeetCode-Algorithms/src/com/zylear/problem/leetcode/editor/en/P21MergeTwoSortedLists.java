@@ -37,6 +37,8 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 5382 👎 676
 
 
+import com.zylear.problem.leetcode.editor.en.base.ListNode;
+
 public class P21MergeTwoSortedLists {
     public static void main(String[] args) {
 //        Solution solution = new Solution();
@@ -44,22 +46,6 @@ public class P21MergeTwoSortedLists {
     }
 
 
-    class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
 //leetcode submit region begin(Prohibit modification and deletion)
 

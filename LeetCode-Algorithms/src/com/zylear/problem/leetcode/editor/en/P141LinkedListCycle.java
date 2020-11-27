@@ -53,6 +53,8 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 3555 👎 562
 
 
+import com.zylear.problem.leetcode.editor.en.base.ListNode;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,15 +64,7 @@ public class P141LinkedListCycle {
     }
 
 
-    class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-    }
 
 //leetcode submit region begin(Prohibit modification and deletion)
 

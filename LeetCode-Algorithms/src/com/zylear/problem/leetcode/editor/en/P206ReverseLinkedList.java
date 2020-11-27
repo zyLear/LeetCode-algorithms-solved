@@ -17,28 +17,14 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 5677 👎 109
 
 
+import com.zylear.problem.leetcode.editor.en.base.ListNode;
+
 public class P206ReverseLinkedList {
     public static void main(String[] args) {
         Solution solution = new P206ReverseLinkedList().new Solution();
         // TO TEST
     }
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     //leetcode submit region begin(Prohibit modification and deletion)
 
