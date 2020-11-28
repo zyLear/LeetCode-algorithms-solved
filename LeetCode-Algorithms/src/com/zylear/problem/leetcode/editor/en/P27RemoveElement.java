@@ -62,15 +62,13 @@ package com.zylear.problem.leetcode.editor.en;
 // 0 <= val <= 100 
 // 
 // Related Topics Array Two Pointers 
-// 👍 1746 👎 3105
+// 👍 1753 👎 3112
 
 
-public class RemoveElement27 {
+public class P27RemoveElement {
     public static void main(String[] args) {
-        Solution solution = new RemoveElement27().new Solution();
+        Solution solution = new P27RemoveElement().new Solution();
     }
-
-
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
@@ -87,7 +85,7 @@ public class RemoveElement27 {
             return count;
         }
     }
-    //leetcode submit region end(Prohibit modification and deletion)
+//leetcode submit region end(Prohibit modification and deletion)
 
 
 }

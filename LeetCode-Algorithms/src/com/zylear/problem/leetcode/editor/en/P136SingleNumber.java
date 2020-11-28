@@ -27,17 +27,17 @@ package com.zylear.problem.leetcode.editor.en;
 //only once. 
 // 
 // Related Topics Hash Table Bit Manipulation 
-// 👍 5261 👎 180
+// 👍 5286 👎 181
 
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SingleNumber136 {
+public class P136SingleNumber {
     public static void main(String[] args) {
-        Solution solution = new SingleNumber136().new Solution();
+        Solution solution = new P136SingleNumber().new Solution();
     }
-    
+
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int singleNumber(int[] nums) {
@@ -45,7 +45,7 @@ public class SingleNumber136 {
             for (int num : nums) {
                 if (!set.contains(num)) {
                     set.add(num);
-                }else {
+                } else {
                     set.remove(num);
                 }
             }
@@ -54,7 +54,7 @@ public class SingleNumber136 {
 
         }
     }
-    //leetcode submit region end(Prohibit modification and deletion)
+//leetcode submit region end(Prohibit modification and deletion)
 
-    
+
 }
