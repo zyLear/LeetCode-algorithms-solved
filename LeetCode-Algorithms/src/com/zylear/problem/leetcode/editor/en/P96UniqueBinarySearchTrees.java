@@ -39,19 +39,44 @@ public class P96UniqueBinarySearchTrees {
 
         public int count = 0;
 
+        public int[][] lowDp;
+
+        //表示n个节点有多少中可能
+        public int[] dp;
+
+
         public int numTrees(int n) {
+//            lowDp = new int[n + 1][n + 1];
+            dp = new int[n + 1];
 
-//            for (int i = 1; i <= n; i++) {
+            dp[0] = 1;
 //
-//            }
+            for (int i = 1; i <= n; i++) {
 
-            return numTrees(1, n);
+                for (int j = 1; j <= i; j++) {
+                    //j代表以j为跟节点
+                    //j-1 代表左边节点的长度
+                    //i-j 代表右边节点的长度
+                    dp[i] = dp[i] + (dp[j - 1] * dp[i - j]);
+                }
+
+            }
+            return dp[n];
+
+//            return numTrees(1, n);
+
+//            return 0;
         }
 
-        //暴力求解  时间超时
+        //暴力求解  保存中间计算结果 时间就不超时了
         public int numTrees(int start, int end) {
+
             if (end < start) {
                 return 1;
+            }
+
+            if (lowDp[start][end] != 0) {
+                return lowDp[start][end];
             }
 
             int count = 0;
@@ -60,6 +85,8 @@ public class P96UniqueBinarySearchTrees {
                 int rightCount = numTrees(i + 1, end);
                 count = count + (leftCount * rightCount);
             }
+
+            lowDp[start][end] = count;
 
             return count;
         }

@@ -36,46 +36,48 @@ package com.zylear.problem.leetcode.editor.en;
 
 public class P88MergeSortedArray {
     public static void main(String[] args) {
-        Solution solution = new Solution();
+//        Solution solution = new Solution();
         // TO TEST
     }
-}
 
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int i = m - 1;
-        int j = n - 1;
-        int index = m + n - 1;
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public void merge(int[] nums1, int m, int[] nums2, int n) {
+            int i = m - 1;
+            int j = n - 1;
+            int index = m + n - 1;
 
-        while (i >= 0 || j >= 0) {
+            while (i >= 0 || j >= 0) {
 
-            if (i < 0) {
-                nums1[index] = nums2[j];
-                j--;
-                index--;
-                continue;
+                if (i < 0) {
+                    nums1[index] = nums2[j];
+                    j--;
+                    index--;
+                    continue;
+                }
+                if (j < 0) {
+                    nums1[index] = nums1[i];
+                    i--;
+                    index--;
+                    continue;
+                }
+
+
+                if (nums1[i] > nums2[j]) {
+                    nums1[index] = nums1[i];
+                    i--;
+                    index--;
+                } else {
+                    nums1[index] = nums2[j];
+                    j--;
+                    index--;
+                }
+
+
             }
-            if (j < 0) {
-                nums1[index] = nums1[i];
-                i--;
-                index--;
-                continue;
-            }
-
-
-            if (nums1[i] > nums2[j]) {
-                nums1[index] = nums1[i];
-                i--;
-                index--;
-            } else {
-                nums1[index] = nums2[j];
-                j--;
-                index--;
-            }
-
-
         }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
+}
+
+
