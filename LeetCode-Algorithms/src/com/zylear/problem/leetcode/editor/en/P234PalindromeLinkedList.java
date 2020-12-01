@@ -42,13 +42,46 @@ public class P234PalindromeLinkedList {
      */
     class Solution {
         public boolean isPalindrome(ListNode head) {
-            //   slow  fast
-            // 1 - 2 -  1 - null
-            //   slow  fast
-            // 1 - 1 - null
 
-//            ListNode slow
-            return false;
+            if (head == null) {
+                return true;
+            }
+
+            //此方法更改了入参  不太规范
+
+            //prev slow  fast
+            // 1 -  2  -  1  - null
+            //prev slow   fast
+            // 1 -  1  -  null
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            ListNode reverseHead = reverseNew(slow);
+            while (reverseHead != null) {
+
+                if (head.val != reverseHead.val) {
+                    return false;
+                }
+                reverseHead = reverseHead.next;
+                head = head.next;
+            }
+
+            return true;
+        }
+
+        private ListNode reverseNew(ListNode node) {
+            if (node == null || node.next == null) {
+                return node;
+            }
+            ListNode tail = reverseNew(node.next);
+            node.next.next = node;
+            node.next = null;
+            return tail;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
