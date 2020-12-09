@@ -51,13 +51,13 @@ public class P155MinStack {
     //leetcode submit region begin(Prohibit modification and deletion)
     class MinStack {
 
-        class Node {
+        class MinStackNode {
             private int value;
             private int min;
-            private Node next;
+            private MinStackNode next;
         }
 
-        private Node head;
+        private MinStackNode head;
 
         /**
          * initialize your data structure here.
@@ -67,11 +67,11 @@ public class P155MinStack {
 
         public void push(int x) {
             if (head == null) {
-                head = new Node();
+                head = new MinStackNode();
                 head.value = x;
                 head.min = x;
             } else {
-                Node node = new Node();
+                MinStackNode node = new MinStackNode();
                 node.value = x;
                 node.min = Math.min(head.min, x);
                 node.next = head;
