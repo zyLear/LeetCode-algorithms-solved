@@ -33,36 +33,43 @@ package com.zylear.problem.leetcode.editor.en;
 // 1 is typically treated as an ugly number. 
 // Input is within the 32-bit signed integer range: [−231, 231 − 1]. 
 // Related Topics Math 
-// 👍 617 👎 707
+// 👍 618 👎 707
 
 
 public class P263UglyNumber {
     public static void main(String[] args) {
-        // Solution solution = new P263UglyNumber().new Solution();
-        // TO TEST
+        Solution solution = new P263UglyNumber().new Solution();
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean isUgly(int num) {
-            if(num <= 0){
+
+            if (num == 0) {
                 return false;
             }
-            while(num != 1){
-                if(num %2 == 0)
-                    num = num /2;
-                else if(num % 3== 0)
-                    num = num /3;
-                else if(num % 5 == 0)
-                    num = num/5;
-                else{
-                    return false;
+
+            while (num != 1) {
+                if (num % 2 == 0) {
+                    num /= 2;
+                    continue;
                 }
+                if (num % 3 == 0) {
+                    num /= 3;
+                    continue;
+                }
+                if (num % 5 == 0) {
+                    num /= 5;
+                    continue;
+                }
+                return false;
             }
+
             return true;
 
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
+
 
 }
