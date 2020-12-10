@@ -65,7 +65,6 @@ public class P53MaximumSubarray {
     //动态规划
 
 
-
     /*
 
     如果把 状态 dp[i] 定为 0-i 的最大子序列和，最后只要返回 dp[n-1] 即可，但 决策 无法确定，不能根据dp[i-1] 得到 dp[i] , 因为 dp[i-1] 保存的最大子序列和可能不和dp[i-1]连续 ，如 [−2,1,−3,4,−1,2,1,−5,4] ,dp[0]=-2,dp[1]=1,dp[2]=1,dp[3] 不能等于5，因为dp[2] 没有记录序列是否是连续的。
@@ -86,14 +85,15 @@ public class P53MaximumSubarray {
             dp[0] = nums[0];
             int max = nums[0];
 
-            for (int i = 0; i < nums.length - 1; i++) {
-                if (dp[i] < 0) {
-                    dp[i + 1] = nums[i + 1];
-                }else {
-                    dp[i + 1] = dp[i] + nums[i + 1];
+            for (int i = 1; i < nums.length; i++) {
+                //前一个小于0 那就取数组的值
+                if (dp[i - 1] < 0) {
+                    dp[i] = nums[i];
+                } else {
+                    dp[i] = dp[i - 1] + nums[i];
                 }
 
-                max = Math.max(max, dp[i + 1]);
+                max = Math.max(max, dp[i]);
             }
             return max;
 
