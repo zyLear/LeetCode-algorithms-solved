@@ -48,7 +48,9 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 12001 👎 644
 
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class P3LongestSubstringWithoutRepeatingCharacters {
@@ -60,27 +62,27 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
-//        public int lengthOfLongestSubstring(String s) {
-//            Set<Character> set = new HashSet<>();
-//            int start = 0;
-//            int end = 0;
-//            int max = 0;
-//            while (start < s.length() && end < s.length()) {
-//
-//                if (!set.contains(s.charAt(end))) {
-//                    set.add(s.charAt(end));
-//                    max = Math.max(max, end - start + 1);
-//                    end++;
-//                } else {
-//                    set.remove(s.charAt(start));
-//                    start++;
-//                }
-//            }
-//            return max;
-//        }
+        public int lengthOfLongestSubstring(String s) {
+            Map<Character, Integer> map = new HashMap<>();
+            //上次不相等的地方
+            int start = 0;
+            int end = 0;
+            int max = 0;
+            while (start < s.length() && end < s.length()) {
+
+                if (map.containsKey(s.charAt(end))) {
+                    start = Math.max(map.get(s.charAt(end)), start);
+                }
+                map.put(s.charAt(end), end + 1);
+                max = Math.max(max, end - start + 1);
+                end++;
+            }
+            return max;
+        }
 
         public int lengthOfLongestSubstring2(String s) {
             Set<Character> set = new HashSet<>();
+            //上次不相等的地方
             int start = 0;
             int end = 0;
             int max = 0;
