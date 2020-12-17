@@ -46,41 +46,22 @@ public class P50PowxN {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public double myPow(double x, int n) {
-//            Long n = (long) n;
-            if (n < 0) {
+            Long N = (long) n;
+            if (N < 0) {
                 x = 1 / x;
-                n = -n;
+                N = -N;
             }
-//            double s = x;
-//            double response = 1;
-//            if ((n & 1) == 1) {
-//                n = n + 1;
-//            }
-//            while (n > 0) {
 
-//                if (n == 1) {
-//                    return x * s;
-//                }
-//                if ((n & 1) == 1) {
-//                    response = response * x;
-//                }
-//                x = x * x;
-//                n = n >> 1;
-
-//            }
-            //(x)^n  = (x*x)^2
-
-//            return x/s;
-
-            return pox(x, n);
+            return pox(x, N);
 
         }
 
-        private double pox(double x, int n) {
+        //拆解法
+        private double pox(double x, long n) {
             if (n == 0) {
                 return 1;
             }
-            if (x % 2 == 1) {
+            if (n % 2 == 1) {
                 return pox(x, n - 1) * x;
             } else {
                 double pox = pox(x, n / 2);
