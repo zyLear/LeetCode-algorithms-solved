@@ -40,7 +40,56 @@ public class P78Subsets {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+        Stack<Integer> record = new Stack<>();
+        List<List<Integer>> result = new LinkedList<>();
+
+
+        //depth
+
+//        public List<List<Integer>> subsets(int[] nums) {
+//
+////            result.add(Collections.emptyList());
+//            //depth loop
+//            for (int i = 0; i < nums.length + 1; i++) {
+//                record = new ArrayList<>();
+//                backtrack(0, i, nums);
+//            }
+//            return result;
+//        }
+
+//        private void backtrack(int i, int goalDepth, int[] nums) {
+//            if (record.size() == goalDepth) {
+//                result.add(new ArrayList<>(record));
+//                return;
+//            }
+//            for (int j = i; j < nums.length; j++) {
+//                record.add(nums[j]);
+//                backtrack(j + 1, goalDepth, nums);
+//                record.remove(record.size() - 1);
+//            }
+//        }
+
+
         public List<List<Integer>> subsets(int[] nums) {
+
+            result.add(Collections.emptyList());
+            backtrack(0, nums);
+            return result;
+        }
+
+        private void backtrack(int i, int[] nums) {
+            for (int j = i; j < nums.length; j++) {
+                record.push(nums[j]);
+                result.add(new ArrayList<>(record));
+                // 走了第一步之后  后面的结果从j+1开始
+                backtrack(j + 1, nums);
+                record.pop();
+            }
+        }
+
+
+        public List<List<Integer>> subsets1(int[] nums) {
             List<List<Integer>> result = new LinkedList<>();
             int n = 0;
             result.add(Collections.emptyList());
