@@ -41,19 +41,52 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 4991 👎 470
 
 
-import java.util.List;
+import java.util.*;
 
 public class P17LetterCombinationsOfAPhoneNumber {
     public static void main(String[] args) {
-        // Solution solution = new P17LetterCombinationsOfAPhoneNumber().new Solution();
+        Solution solution = new P17LetterCombinationsOfAPhoneNumber().new Solution();
+        solution.letterCombinations("23");
         // TO TEST
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public List<String> letterCombinations(String digits) {
 
-            return null;
+        List<String> result = new LinkedList<>();
+        StringBuilder record = new StringBuilder();
+        Map<String, String> phone = new HashMap<String, String>() {{
+            put("2", "abc");
+            put("3", "def");
+            put("4", "ghi");
+            put("5", "jkl");
+            put("6", "mno");
+            put("7", "pqrs");
+            put("8", "tuv");
+            put("9", "wxyz");
+        }};
+
+        public List<String> letterCombinations(String digits) {
+            if (digits == null || "".equals(digits)) {
+                return result;
+            }
+            backtrack(0, digits);
+
+            return result;
+        }
+
+        private void backtrack(int startIndexOfAttempts, String digits) {
+            if (startIndexOfAttempts == digits.length()) {
+                result.add(record.toString());
+                return;
+            }
+            char c = digits.charAt(startIndexOfAttempts);
+            String strings = phone.get(String.valueOf(c));
+            for (int i = 0; i < strings.length(); i++) {
+                record.append(strings.charAt(i));
+                backtrack(startIndexOfAttempts + 1, digits);
+                record.deleteCharAt(record.length() - 1);
+            }
         }
     }
     //leetcode submit region end(Prohibit modification and deletion)
