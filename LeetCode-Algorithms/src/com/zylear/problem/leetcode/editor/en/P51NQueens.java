@@ -76,33 +76,38 @@ public class P51NQueens {
                 return;
             }
 
-//            for (int i = index; i < n; i++) {
-            int i = index;
             for (int j = 0; j < n; j++) {
-
-                if (record[i][j] != 1) {
-                    if (meet(i, j)) {
-                        record[i][j] = 1;
+                if (record[index][j] != 1) {
+                    if (meet(index, j)) {
+                        record[index][j] = 1;
                         size++;
                         backtracking(index + 1, n);
                         size--;
-                        record[i][j] = 0;
+                        record[index][j] = 0;
                     }
 
                 }
-//                }
             }
         }
 
         private boolean meet(int i, int j) {
             for (int k = 0; k < direction.length; k++) {
-                int newI = i + direction[k][0];
-                int newJ = j + direction[k][1];
-                if (newI >= 0 && newI < record.length && newJ >= 0 && newJ < record.length) {
-                    if (record[newI][newJ] == 1) {
-                        return false;
+                int newI = i;
+                int newJ = j;
+                while (true) {
+                    newI = newI + direction[k][0];
+                    newJ = newJ + direction[k][1];
+                    if (newI >= 0 && newI < record.length && newJ >= 0 && newJ < record.length) {
+                        if (record[newI][newJ] == 1) {
+                            return false;
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        break;
                     }
                 }
+
             }
 
             return true;
