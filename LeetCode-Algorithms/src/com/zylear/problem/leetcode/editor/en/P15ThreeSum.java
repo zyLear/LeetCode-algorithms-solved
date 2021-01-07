@@ -33,16 +33,58 @@ import java.util.*;
 public class P15ThreeSum {
     public static void main(String[] args) {
         Solution solution = new P15ThreeSum().new Solution();
+        int[] nums = new int[]{-4, -1, -1, 0, 1, 2};
+        solution.threeSum(nums);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
 
-        public List<List<Integer>> threeSum(int[] nums) {
+        private List<List<Integer>> result = new LinkedList<>();
+        private Stack<Integer> record = new Stack<>();
 
-            //todo
-            return null;
+
+        public List<List<Integer>> threeSum(int[] nums) {
+            //时间复杂度  O(n^(k-1))  比暴力搜索/回溯 少一次放  O(n^(k))
+            Arrays.sort(nums);
+            kSum(nums, 0, nums.length - 1, 3, 0);
+
+            return result;
+        }
+
+        private void kSum(int[] nums, int lower, int upper, int n, int target) {
+            if (n == 2) {
+
+                while (lower < upper) {
+                    if (nums[lower] + nums[upper] == target) {
+                        ArrayList<Integer> integers = new ArrayList<>(record);
+                        integers.add(nums[lower]);
+                        integers.add(nums[upper]);
+                        result.add(integers);
+                        //同一组内 找到新的起点
+                        int temp = nums[lower];
+                        do {
+                            lower++;
+                        } while (lower < upper && nums[lower] == temp);
+
+                    } else if (nums[lower] + nums[upper] > target) {
+                        upper--;
+                    } else {
+                        lower++;
+                    }
+                }
+
+            } else if (n > 2) {
+                for (int i = lower; i < upper - 1; i++) {
+                    if (i > lower && nums[i] == nums[i - 1]) {
+                        continue;
+                    }
+                    record.push(nums[i]);
+                    kSum(nums, i + 1, upper, n - 1, target - nums[i]);
+                    record.pop();
+                }
+            }
         }
 
 
