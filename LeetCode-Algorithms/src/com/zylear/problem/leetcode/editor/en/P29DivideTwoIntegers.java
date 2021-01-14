@@ -59,57 +59,117 @@ package com.zylear.problem.leetcode.editor.en;
 
 
 public class P29DivideTwoIntegers {
-//    public static void main(String[] args) {
-//        Solution solution = new Solution();
-//        // TO TEST
-//    }
+    public static void main(String[] args) {
+        Solution solution = new P29DivideTwoIntegers().new Solution();
+        solution.divide(10, 3);
+        // TO TEST
+    }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int divide(int dividend, int divisor) {
 
-//            if (divisor == 1) {
-//                return dividend;
-//            }
-//            if (divisor == -1) {
-//                if (dividend == Integer.MIN_VALUE) {
-//                    return Integer.MAX_VALUE;
-//                } else {
-//                    return -dividend;
-//                }
-//            }
+        public int divide(int dividend1, int divisor1) {
 
-//
-//            boolean change = false;
-//            if (dividend < 0 && divisor > 0) {
-//                dividend = -dividend;
-//                change = true;
-//            }
-//            if (dividend > 0 && divisor < 0) {
-//                divisor = -divisor;
-//                change = true;
-//            }
-//            if (dividend < 0 && divisor < 0) {
-//                divisor = -divisor;
-//                dividend = -dividend;
-//            }
-//            int lower = 1;
-//            int upper = dividend;
-//            while (lower <= upper) {
-//
-//                int mid = lower + ((upper - lower) / 2);
-//                if (mid * divisor == dividend) {
-//                    return change ? -mid : mid;
-//                } else if (mid * divisor < dividend) {
-//                    lower = mid + 1;
-//                } else {
-//                    upper = mid - 1;
-//                }
-//            }
-//
-//            return change ? -upper : upper;
+            Long dividend = (long) dividend1;
+            Long divisor = (long) divisor1;
 
-            return 0;
+
+            if (divisor == 1) {
+                return dividend.intValue();
+            }
+            if (divisor == -1) {
+                if (dividend == Integer.MIN_VALUE) {
+                    return Integer.MAX_VALUE;
+                } else {
+                    return ((Long) (-dividend)).intValue();
+                }
+            }
+
+
+            boolean change = false;
+            if (dividend < 0 && divisor > 0) {
+                dividend = -dividend;
+                change = true;
+            }
+            if (dividend > 0 && divisor < 0) {
+                divisor = -divisor;
+                change = true;
+            }
+            if (dividend < 0 && divisor < 0) {
+                divisor = -divisor;
+                dividend = -dividend;
+            }
+
+            if (dividend < divisor) {
+                return 0;
+            }
+            long lower = divisor;
+            long upper = dividend;
+            long n = 1;
+            while ((lower << 1) <= upper) {
+                lower <<= 1;
+                n <<= 1;
+            }
+
+            while (lower + divisor <= upper) {
+                lower += divisor;
+                n++;
+            }
+
+            return Long.valueOf(change ? -n : n).intValue();
+
+        }
+
+
+        //使用了乘法 不合法
+        public int divide1(int dividend1, int divisor1) {
+
+            Long dividend = (long) dividend1;
+            Long divisor = (long) divisor1;
+
+
+            if (divisor == 1) {
+                return dividend.intValue();
+            }
+            if (divisor == -1) {
+                if (dividend == Integer.MIN_VALUE) {
+                    return Integer.MAX_VALUE;
+                } else {
+                    return ((Long) (-dividend)).intValue();
+                }
+            }
+
+
+            boolean change = false;
+            if (dividend < 0 && divisor > 0) {
+                dividend = -dividend;
+                change = true;
+            }
+            if (dividend > 0 && divisor < 0) {
+                divisor = -divisor;
+                change = true;
+            }
+            if (dividend < 0 && divisor < 0) {
+                divisor = -divisor;
+                dividend = -dividend;
+            }
+            long lower = 0;
+            long upper = dividend;
+
+            while (lower <= upper) {
+
+                long mid = lower + ((upper - lower) / 2);
+                if (mid * divisor == dividend) {
+                    return Long.valueOf(change ? -mid : mid).intValue();
+                } else if (mid * divisor < dividend) {
+                    lower = mid + 1;
+                } else {
+                    upper = mid - 1;
+                }
+            }
+
+            return Long.valueOf(change ? -upper : upper).intValue();
+
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
