@@ -46,56 +46,175 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 5075 👎 203
 
 
+import java.util.*;
+
 public class P207CourseSchedule {
     public static void main(String[] args) {
-        // Solution solution = new P207CourseSchedule().new Solution();
+        Solution solution = new P207CourseSchedule().new Solution();
+        solution.canFinish(3, new int[][]{{2, 0}, {2, 1}});
         // TO TEST
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        boolean[] show;
         boolean[] visited;
+        boolean[] handle;
 
+        int[] indegree;
+        Map<Integer, Set<Integer>> adjacency;
+
+
+        //bfs
         public boolean canFinish(int numCourses, int[][] prerequisites) {
             if (prerequisites.length == 0) {
                 return true;
             }
-            visited = new boolean[numCourses];
-            show = new boolean[prerequisites.length];
+//            visited = new boolean[numCourses];
+            handle = new boolean[numCourses];
 
-            int[] countt = new int[numCourses];
-            for (int i = 0; i < prerequisites.length; i++) {
-                countt[prerequisites[i][0]] += 1;
-                countt[prerequisites[i][1]] -= 1;
+//            indegree = new int[numCourses];
+
+            Map<Integer, Set<Integer>> deadjacency = new HashMap<>(numCourses);
+
+            int[] prerequisitesCount = new int[numCourses];
+
+
+            for (int[] prerequisite : prerequisites) {
+                Set<Integer> set = deadjacency.computeIfAbsent(prerequisite[1], k -> new HashSet<>());
+                set.add(prerequisite[0]);
+
+                prerequisitesCount[prerequisite[0]] += 1;
             }
 
-//            visited[prerequisites[0][0]]=true;
-//            visited[prerequisites[0][1]]=true;
-            for (int i = 0; i < prerequisites.length; i++) {
-//                if (!show[i]) {
+            Queue<Integer> queue = new LinkedList<>();
 
-                if (countt[prerequisites[i][0]] > 0) {
-                    show[i] = true;
-                    boolean dfs = dfs(numCourses, prerequisites, prerequisites[0][1]);
+            for (int i = 0; i < numCourses; i++) {
+                if (prerequisitesCount[i] == 0) {
+                    queue.add(i);
+                }
+            }
+            while (!queue.isEmpty()) {
+                while (!queue.isEmpty()) {
+                    Integer poll = queue.poll();
+                    handle[poll] = true;
+                    Set<Integer> set = deadjacency.get(poll);
+                    if (set != null) {
+                        for (Integer integer : set) {
+                            prerequisitesCount[integer] -= 1;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < numCourses; i++) {
+                    if (prerequisitesCount[i] == 0 && !handle[i]) {
+                        queue.add(i);
+                    }
+                }
+            }
+
+
+            for (int i = 0; i < numCourses; i++) {
+                if (prerequisitesCount[i] != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        //dfs
+        public boolean canFinish2(int numCourses, int[][] prerequisites) {
+            if (prerequisites.length == 0) {
+                return true;
+            }
+            visited = new boolean[numCourses];
+            handle = new boolean[numCourses];
+
+            indegree = new int[numCourses];
+
+            adjacency = new HashMap<>(numCourses);
+
+            for (int[] prerequisite : prerequisites) {
+                Set<Integer> set = adjacency.computeIfAbsent(prerequisite[0], k -> new HashSet<>());
+                set.add(prerequisite[1]);
+
+                indegree[prerequisite[1]] += 1;
+            }
+
+            //优先搜索
+            for (int i = 0; i < numCourses; i++) {
+                if (indegree[i] == 0) {
+                    boolean dfs = improveDfs(i);
                     if (!dfs) {
                         return false;
                     }
                 }
+            }
 
-//                }
+            for (int i = 0; i < numCourses; i++) {
+                if (!handle[i]) {
+                    boolean dfs = improveDfs(i);
+                    if (!dfs) {
+                        return false;
+                    }
+                }
             }
             return true;
         }
 
-        private boolean dfs(int numCourses, int[][] prerequisites, int number) {
-            for (int i = 0; i < prerequisites.length; i++) {
-                if (prerequisites[i][0] == number) {
-                    if (show[i]) {
-                        return false;
-                    } else {
-                        show[i] = true;
-                        boolean dfs = dfs(numCourses, prerequisites, prerequisites[i][1]);
+        private boolean improveDfs(int number) {
+            handle[number] = true;
+            if (visited[number]) {
+                return false;
+            } else {
+                visited[number] = true;
+                Set<Integer> set = adjacency.get(number);
+                if (set != null) {
+                    for (Integer integer : set) {
+                        boolean dfs = improveDfs(integer);
+                        if (!dfs) {
+                            return false;
+                        }
+                    }
+                }
+                visited[number] = false;
+            }
+            return true;
+        }
+
+
+        //邻接表表示图 找邻接点的方式通过for循环，可改进
+        public boolean canFinish1(int numCourses, int[][] prerequisites) {
+            if (prerequisites.length == 0) {
+                return true;
+            }
+            visited = new boolean[numCourses];
+            handle = new boolean[numCourses];
+
+
+            for (int i = 0; i < numCourses; i++) {
+                if (handle[i]) {
+                    continue;
+                }
+                boolean dfs = dfs(prerequisites, i);
+                if (!dfs) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean dfs(int[][] prerequisites, int number) {
+            handle[number] = true;
+            if (visited[number]) {
+                return false;
+            } else {
+                for (int i = 0; i < prerequisites.length; i++) {
+                    if (prerequisites[i][0] == number) {
+                        visited[number] = true;
+                        boolean dfs = dfs(prerequisites, prerequisites[i][1]);
+                        visited[number] = false;
                         if (!dfs) {
                             return false;
                         }
@@ -104,6 +223,8 @@ public class P207CourseSchedule {
             }
             return true;
         }
+
+
     }
     //leetcode submit region end(Prohibit modification and deletion)
 
