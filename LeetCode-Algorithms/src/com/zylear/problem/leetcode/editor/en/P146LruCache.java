@@ -67,6 +67,8 @@ public class P146LruCache {
     //leetcode submit region begin(Prohibit modification and deletion)
     class LRUCache {
 
+
+        //fixme
         private LinkedHashMap<Integer, Integer> map;
 //        private int capacity;
 
