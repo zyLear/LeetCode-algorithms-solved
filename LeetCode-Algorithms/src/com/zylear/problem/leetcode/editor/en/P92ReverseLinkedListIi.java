@@ -42,12 +42,45 @@ public class P92ReverseLinkedListIi {
 
 
             ListNode sentinel = new ListNode();
+            sentinel.next = head;
+            ListNode slow = sentinel;
+            ListNode fast = sentinel.next;
+            while (n > 0) {
+                fast = fast.next;
+                if (m > 1) {
+                    slow = slow.next;
+                }
+                n--;
+                m--;
+            }
 
-
+            ListNode reverse = reverse(slow.next, fast);
+            ListNode next = slow.next;
+            slow.next = reverse;
+            next.next = fast;
 
             return sentinel.next;
         }
 
+
+        /**
+         *
+         * @param current headNodeIncluded
+         * @param tailNodeExcluded
+         * @return
+         */
+        private ListNode reverse(ListNode current, ListNode tailNodeExcluded) {
+
+            if (current.next == tailNodeExcluded) {
+                return current;
+            }
+
+            ListNode next = current.next;
+            ListNode tail = reverse(next, tailNodeExcluded);
+            next.next = current;
+            current.next = null;
+            return tail;
+        }
 
     }
     //leetcode submit region end(Prohibit modification and deletion)
