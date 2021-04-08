@@ -65,26 +65,29 @@ public class P139WordBreak {
                 return true;
             }
 
-            boolean[][] dp = new boolean[s.length()][s.length()];
-            String substring = s.substring(0, 1);
-            for (String string : wordDict) {
-                if (string.equals(substring)) {
-                    dp[0][0] = true;
-                    break;
-                }
+            boolean[] dp = new boolean[s.length()];
+            if (judge(s, wordDict, 0, 1)) {
+                dp[0] = true;
             }
-
 
             for (int i = 1; i < s.length(); i++) {
-                boolean temp = false;
-                for (int j = i - 1; j >= 0; j--) {
-                    temp = temp || (dp[0][j] && judge(s, wordDict, j + 1, i + 1));
+
+                if (judge(s, wordDict, 0, i + 1)) {
+                    dp[i] = true;
+                    continue;
                 }
-                temp = temp || judge(s, wordDict, 0, i + 1);
-                dp[0][i] = temp;
+
+                boolean result = false;
+                for (int j = 0; j < i; j++) {
+                    if (dp[j] && judge(s, wordDict, j + 1, i + 1)) {
+                        result = true;
+                        break;
+                    }
+                }
+                dp[i] = result;
             }
 
-            return dp[0][s.length() - 1];
+            return dp[s.length() - 1];
         }
 
         public boolean judge(String s, List<String> wordDict, int start, int end) {
