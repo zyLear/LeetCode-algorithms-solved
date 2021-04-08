@@ -52,7 +52,7 @@ import java.util.List;
 public class P139WordBreak {
     public static void main(String[] args) {
         Solution solution = new P139WordBreak().new Solution();
-        solution.wordBreak("leetcode", Arrays.asList("leet", "code"));
+        System.out.println(solution.wordBreak("lee", Arrays.asList("le", "e")));
         // TO TEST
     }
 
@@ -80,6 +80,7 @@ public class P139WordBreak {
                 for (int j = i - 1; j >= 0; j--) {
                     temp = temp || (dp[0][j] && judge(s, wordDict, j + 1, i + 1));
                 }
+                temp = temp || judge(s, wordDict, 0, i + 1);
                 dp[0][i] = temp;
             }
 
