@@ -46,17 +46,70 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 6355 👎 301
 
 
+import java.util.Arrays;
 import java.util.List;
 
-public class P139WordBreak{
+public class P139WordBreak {
     public static void main(String[] args) {
-        // Solution solution = new P139WordBreak().new Solution();
+        Solution solution = new P139WordBreak().new Solution();
+        solution.wordBreak("leetcode", Arrays.asList("leet", "code"));
         // TO TEST
     }
-    
+
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+
         public boolean wordBreak(String s, List<String> wordDict) {
+            if (s == null || s.isEmpty()) {
+                return true;
+            }
+
+            boolean[][] dp = new boolean[s.length()][s.length()];
+            String substring = s.substring(0, 1);
+            for (String string : wordDict) {
+                if (string.equals(substring)) {
+                    dp[0][0] = true;
+                    break;
+                }
+            }
+
+
+            for (int i = 1; i < s.length(); i++) {
+                boolean temp = false;
+                for (int j = i - 1; j >= 0; j--) {
+                    temp = temp || (dp[0][j] && judge(s, wordDict, j + 1, i + 1));
+                }
+                dp[0][i] = temp;
+            }
+
+            return dp[0][s.length() - 1];
+        }
+
+        public boolean judge(String s, List<String> wordDict, int start, int end) {
+            String substring = s.substring(start, end);
+            for (String string : wordDict) {
+                if (string.equals(substring)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //暴力法  时间超时
+        public boolean wordBreak1(String s, List<String> wordDict) {
+
+            if (s.isEmpty()) {
+                return true;
+            }
+            for (String string : wordDict) {
+                if (s.startsWith(string)) {
+                    if (wordBreak1(s.substring(string.length()), wordDict)) {
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
     }
