@@ -70,7 +70,7 @@ public class P198HouseRobber {
             return dp[nums.length];
         }
     }
-//leetcode submit region end(Prohibit modification and deletion)
+    //leetcode submit region end(Prohibit modification and deletion)
 
 
 }
