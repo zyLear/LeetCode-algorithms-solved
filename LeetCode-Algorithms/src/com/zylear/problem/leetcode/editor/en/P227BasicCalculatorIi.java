@@ -35,18 +35,129 @@ package com.zylear.problem.leetcode.editor.en;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 public class P227BasicCalculatorIi {
     public static void main(String[] args) {
         Solution solution = new P227BasicCalculatorIi().new Solution();
-        System.out.println(solution.calculate("2+2*4"));
+        System.out.println(solution.calculate("42"));
         // TO TEST
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        //强行逻辑解题  没什么用
+
         public int calculate(String s) {
+            Set<Character> set = new HashSet<>(Arrays.asList('*', '/', '+', '-'));
+
+            Stack<Integer> stack = new Stack<>();
+
+            char lastOperator = '+';
+//            int lastValue = 0;
+            for (int i = 0; i < s.length(); i++) {
+                char character = s.charAt(i);
+                if (character == ' ') {
+                    continue;
+                }
+                if (set.contains(character)) {
+                    lastOperator = character;
+                } else {
+//                    int tempIndex = i;
+//                    while (i < s.length() && !set.contains(s.charAt(i))) {
+//                        i++;
+//                    }
+//                    int tempValue = Integer.parseInt(s.substring(tempIndex, i).trim());
+//                    i--;
+                    int lastValue = 0;
+                    int index = i;
+                    while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                        lastValue = (lastValue * 10) + (s.charAt(i) - '0');
+                        i++;
+                    }
+                    if (i > index) {
+                        i--;
+                    }
+
+                    if (lastOperator == '+') {
+                        stack.push(lastValue);
+                    } else if (lastOperator == '-') {
+                        stack.push(-lastValue);
+                    } else if (lastOperator == '*') {
+                        stack.push(stack.pop() * lastValue);
+                    } else {
+                        stack.push(stack.pop() / lastValue);
+                    }
+                    lastOperator = '+';
+                    lastValue = 0;
+
+                }
+            }
+            return stack.stream().reduce(Integer::sum).orElse(0);
+
+        }
+
+
+        public int calculateTwo(String s) {
+            Set<Character> set = new HashSet<>(Arrays.asList('*', '/', '+', '-'));
+            Set<Character> setOne = new HashSet<>(Arrays.asList('*', '/'));
+
+            Stack<Object> stack = new Stack<>();
+
+            for (int i = 0; i < s.length(); i++) {
+                Character character = s.charAt(i);
+                if (character == ' ') {
+                    continue;
+                }
+                if (set.contains(character)) {
+                    stack.push(character);
+                } else {
+                    int tempIndex = i;
+                    while (i < s.length() && !set.contains(s.charAt(i))) {
+                        i++;
+                    }
+                    int tempValue = Integer.parseInt(s.substring(tempIndex, i).trim());
+
+                    //处理前面的乘除法
+                    if (!stack.isEmpty() && setOne.contains((char) stack.peek())) {
+                        handleBefore(stack, tempValue);
+                        tempValue = (int) stack.pop();
+                    }
+                    //处理后面的乘除法
+                    if (i < s.length() && setOne.contains(s.charAt(i))) {
+                        stack.push(tempValue);
+                        i--;
+                        continue;
+                    }
+                    handleBefore(stack, tempValue);
+                    i--;
+                }
+
+            }
+            return (int) stack.pop();
+
+        }
+
+        private void handleBefore(Stack<Object> stack, int tempValue) {
+            if (!stack.isEmpty()) {
+                char operator = (char) stack.pop();
+                int lastValue = (int) stack.pop();
+                if (operator == '+') {
+                    stack.push(lastValue + tempValue);
+                } else if (operator == '-') {
+                    stack.push(lastValue - tempValue);
+                } else if (operator == '*') {
+                    stack.push(lastValue * tempValue);
+                } else {
+                    stack.push(lastValue / tempValue);
+                }
+            } else {
+                stack.push(tempValue);
+            }
+        }
+
+
+        //强行逻辑解题  没什么用
+        public int calculateOld(String s) {
             Set<Character> set = new HashSet<>(Arrays.asList('+', '-'));
             Integer value = null;
             int lastIndex = 0;
