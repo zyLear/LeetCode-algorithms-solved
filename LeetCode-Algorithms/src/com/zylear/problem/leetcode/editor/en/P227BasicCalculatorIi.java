@@ -69,14 +69,11 @@ public class P227BasicCalculatorIi {
 //                    int tempValue = Integer.parseInt(s.substring(tempIndex, i).trim());
 //                    i--;
                     int lastValue = 0;
-                    int index = i;
                     while (i < s.length() && Character.isDigit(s.charAt(i))) {
                         lastValue = (lastValue * 10) + (s.charAt(i) - '0');
                         i++;
                     }
-                    if (i > index) {
-                        i--;
-                    }
+                    i--;
 
                     if (lastOperator == '+') {
                         stack.push(lastValue);
