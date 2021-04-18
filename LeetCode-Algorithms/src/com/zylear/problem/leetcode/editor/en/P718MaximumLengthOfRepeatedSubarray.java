@@ -40,8 +40,52 @@ public class P718MaximumLengthOfRepeatedSubarray {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+        //动态规划
         public int findLength(int[] nums1, int[] nums2) {
 
+            //dp[i][j] 以nums1[i] nums[j] 结尾的最长公共字串
+            // if(nums1[i]==nums2[j]) dp[i][j]=dp[i-1][j-1]+1
+            int[][] dp = new int[nums1.length + 1][nums2.length + 1];
+
+            int max = 0;
+            for (int i = 1; i <= nums1.length; i++) {
+                for (int j = 1; j <= nums2.length; j++) {
+                    if (nums1[i - 1] == nums2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                        max = Math.max(max, dp[i][j]);
+                    }
+                }
+            }
+
+            return max;
+        }
+
+
+        public int findLength2(int[] nums1, int[] nums2) {
+
+            //暴力法
+            int max = 0;
+            for (int i = 0; i < nums1.length; i++) {
+                for (int j = 0; j < nums2.length; j++) {
+
+                    int count = 0;
+                    for (int r = i, t = j; r < nums1.length && t < nums2.length; r++, t++) {
+                        if (nums1[r] == nums2[t]) {
+                            count++;
+                        } else {
+                            break;
+                        }
+                    }
+                    max = Math.max(count, max);
+
+                }
+            }
+            return max;
+        }
+
+        public int findLength3(int[] nums1, int[] nums2) {
+            //一数组固定 一数组平行移动比较法
             //   ===nums2===|==nums1==
             //
             int max = 0;
