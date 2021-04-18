@@ -53,6 +53,7 @@ package com.zylear.problem.leetcode.editor.en;
 public class P1143LongestCommonSubsequence {
     public static void main(String[] args) {
         Solution solution = new P1143LongestCommonSubsequence().new Solution();
+        System.out.println(solution.longestCommonSubsequence("abc", "ac"));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -60,27 +61,21 @@ public class P1143LongestCommonSubsequence {
         public int longestCommonSubsequence(String text1, String text2) {
             int max = 0;
 
-//            if (text1.length() < text2.length()) {
-//                String temp = text1;
-//                text2 = text1;
-//                text1 = temp;
-//            }
+            //总结 如果解不要求连续，则dp[n]的设定就不用是以array[n]结尾的解
+            //dp[i][j] 表示text1[i] text2[j]字符串的解
+            //所以最终的解是dp[text1.length()][text2.length()]
+            int[][] dp = new int[text1.length() + 1][text2.length() + 1];
 
-//            for (int i = 0; i < text1.length() + text2.length(); i++) {
-//
-//                int count = 0;
-//                for (int r = i - text2.length(), t = 0; r >= 0 && r < text1.length() && t < text2.length(); r++, t++) {
-//                    if (text1.charAt(r) == text2.charAt(t)) {
-//                        count++;
-//                    } else {
-//                        max = Math.max(count, max);
-//                        count = 0;
-//                    }
-//                }
-//                max = Math.max(count, max);
-//            }
-//            return max;
-            return 0;
+            for (int i = 1; i <= text1.length(); i++) {
+                for (int j = 1; j <= text2.length(); j++) {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                    if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                        dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - 1] + 1);
+                    }
+                }
+            }
+
+            return dp[text1.length()][text2.length()];
         }
 
     }
