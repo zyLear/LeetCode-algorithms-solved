@@ -49,7 +49,7 @@ public class P198HouseRobber {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
-        //dp[n] 表示抢劫可能以n号屋子为结尾的最大金额
+        //dp[n] 表示抢劫到n号屋子的最大金额（解）
         //求解就是  dp[n]
         //状态转移方程   dp[n]=max(dp[n-1],dp[n-2] + array[n])
         private int[] dp;
