@@ -50,6 +50,7 @@ public class P279PerfectSquares {
             int[] dp = new int[n + 1];
             Arrays.fill(dp, Integer.MAX_VALUE);
 
+
             for (int i = 0; i * i <= n; i++) {
                 dp[i * i] = 1;
             }
@@ -58,6 +59,12 @@ public class P279PerfectSquares {
                     dp[i + j * j] = Math.min(dp[i] + 1, dp[i + j * j]);
                 }
             }
+
+//            for (int i = 1; i <= n; i++) {
+//                for (int j = 1; j < i; j++) {
+//                    dp[i] = Math.min(dp[i - j] + dp[j], dp[i]);
+//                }
+//            }
 
             return dp[n];
 
