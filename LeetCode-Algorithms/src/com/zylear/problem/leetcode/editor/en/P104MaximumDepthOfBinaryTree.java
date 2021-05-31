@@ -32,6 +32,7 @@ public class P104MaximumDepthOfBinaryTree {
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
+
     /**
      * Definition for a binary tree node.
      * public class TreeNode {
@@ -48,7 +49,20 @@ public class P104MaximumDepthOfBinaryTree {
      * }
      */
     class Solution {
+
         public int maxDepth(TreeNode root) {
+            if (root == null) {
+                return 0;
+            } else {
+                return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+
+            }
+
+        }
+
+
+        //************************************************
+        public int maxDepth1(TreeNode root) {
 
             return maxDepth(root, 0);
 

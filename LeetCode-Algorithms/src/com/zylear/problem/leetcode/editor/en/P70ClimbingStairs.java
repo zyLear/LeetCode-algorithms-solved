@@ -40,7 +40,7 @@ package com.zylear.problem.leetcode.editor.en;
 public class P70ClimbingStairs {
     public static void main(String[] args) {
         Solution solution = new P70ClimbingStairs().new Solution();
-        solution.climbStairs(4);
+        solution.climbStairs(3);
         // TO TEST
 
     }
@@ -55,15 +55,15 @@ public class P70ClimbingStairs {
             if (n == 2) {
                 return 2;
             }
-            int[] dp = new int[n];
+            int[] dp = new int[n + 1];
             dp[0] = 1;
-            dp[1] = 2;
+//            dp[1] = 2;
 
 
-            for (int i = 2; i < dp.length; i++) {
-                dp[i] = dp[i - 1] + dp[i - 2] ;
+            for (int i = 1; i <= n; i++) {
+                dp[i] = dp[i - 1] + ((i - 2 >= 0) ? dp[i - 2] : 0);
             }
-            return dp[n-1];
+            return dp[n];
 
         }
     }

@@ -72,7 +72,7 @@ public class P111MinimumDepthOfBinaryTree {
                 } else if (root.right == null) {
                     return minDepth(root.left) + 1;
                 } else {
-                    return Math.min(minDepth(root.right) + 1, minDepth(root.left) + 1);
+                    return Math.min(minDepth(root.right), minDepth(root.left)) + 1;
                 }
             }
         }
