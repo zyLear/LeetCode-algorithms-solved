@@ -57,7 +57,6 @@ public class P70ClimbingStairs {
             }
             int[] dp = new int[n + 1];
             dp[0] = 1;
-//            dp[1] = 2;
 
 
             for (int i = 1; i <= n; i++) {

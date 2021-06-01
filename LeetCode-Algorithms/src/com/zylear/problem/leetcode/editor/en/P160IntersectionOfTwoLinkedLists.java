@@ -76,7 +76,6 @@ public class P160IntersectionOfTwoLinkedLists {
     }
 
 
-
     //leetcode submit region begin(Prohibit modification and deletion)
 
     /**
@@ -91,7 +90,41 @@ public class P160IntersectionOfTwoLinkedLists {
      * }
      */
     public class Solution {
+
         public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+            ListNode temp = headA;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = headA;
+
+            if (headB.next == null) {
+                temp.next = null;
+                return null;
+            }
+            ListNode slow = headB.next;
+            ListNode fast = headB.next.next;
+            while (fast != slow) {
+                if (fast == null || fast.next == null) {
+                    temp.next = null;
+                    return null;
+                }
+                fast = fast.next.next;
+                slow = slow.next;
+
+            }
+
+
+            while (fast != headB) {
+                fast = fast.next;
+                headB = headB.next;
+            }
+            temp.next = null;
+            return fast;
+        }
+
+        public ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
 
             while (headA != null) {
 //                int value = headA.val;

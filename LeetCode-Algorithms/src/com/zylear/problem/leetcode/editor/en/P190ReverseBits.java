@@ -49,12 +49,12 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 1421 👎 484
 
 
-public class P190ReverseBits{
+public class P190ReverseBits {
     public static void main(String[] args) {
         // Solution solution = new P190ReverseBits().new Solution();
         // TO TEST
     }
-    
+
     //leetcode submit region begin(Prohibit modification and deletion)
 public class Solution {
     // you need treat n as an unsigned value
@@ -70,9 +70,9 @@ public class Solution {
             result = (result << 1) | tail;
         }
 
-        return result;
+            return result;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

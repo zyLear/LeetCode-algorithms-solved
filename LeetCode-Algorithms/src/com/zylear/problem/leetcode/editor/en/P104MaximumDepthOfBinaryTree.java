@@ -55,9 +55,7 @@ public class P104MaximumDepthOfBinaryTree {
                 return 0;
             } else {
                 return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-
             }
-
         }
 
 
