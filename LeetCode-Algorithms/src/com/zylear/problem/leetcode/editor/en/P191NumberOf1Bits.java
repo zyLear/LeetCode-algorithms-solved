@@ -59,15 +59,15 @@ public class P191NumberOf1Bits {
     public static void main(String[] args) {
         Solution solution = new P191NumberOf1Bits().new Solution();
     }
-    
-//leetcode submit region begin(Prohibit modification and deletion)
-public class Solution {
-    // you need to treat n as an unsigned value
-    public int hammingWeight(int n) {
-        
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    public class Solution {
+        // you need to treat n as an unsigned value
+        public int hammingWeight(int n) {
+            return 1;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
-    
+
 }

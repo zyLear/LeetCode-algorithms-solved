@@ -61,6 +61,7 @@ public class P112PathSum {
                 } else {
                     return hasPathSum(root.left, sum - root.val)
                             || hasPathSum(root.right, sum - root.val);
+
                 }
             }
         }
