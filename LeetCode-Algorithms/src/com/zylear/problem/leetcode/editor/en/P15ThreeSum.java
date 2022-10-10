@@ -48,40 +48,39 @@ public class P15ThreeSum {
         public List<List<Integer>> threeSum(int[] nums) {
             //时间复杂度  O(n^(k-1))  比暴力搜索/回溯 少一次放  O(n^(k))
             Arrays.sort(nums);
-            kSum(nums, 0, nums.length - 1, 3, 0);
+            kSum(nums, 0, 3, 0);
 
             return result;
         }
 
-        private void kSum(int[] nums, int lower, int upper, int n, int target) {
+        private void kSum(int[] nums, int left, int n, int target) {
             if (n == 2) {
-
-                while (lower < upper) {
-                    if (nums[lower] + nums[upper] == target) {
+                int upper = nums.length - 1;
+                while (left < upper) {
+                    if (nums[left] + nums[upper] == target) {
                         ArrayList<Integer> integers = new ArrayList<>(record);
-                        integers.add(nums[lower]);
+                        integers.add(nums[left]);
                         integers.add(nums[upper]);
                         result.add(integers);
                         //同一组内 找到新的起点
-                        int temp = nums[lower];
-                        do {
-                            lower++;
-                        } while (lower < upper && nums[lower] == temp);
-
-                    } else if (nums[lower] + nums[upper] > target) {
+                        int temp = nums[left];
+                        while (left < upper && nums[left] == temp) {
+                            left++;
+                        }
+                    } else if (nums[left] + nums[upper] > target) {
                         upper--;
                     } else {
-                        lower++;
+                        left++;
                     }
                 }
 
             } else if (n > 2) {
-                for (int i = lower; i < upper - 1; i++) {
-                    if (i > lower && nums[i] == nums[i - 1]) {
+                for (int i = left; i < nums.length - 2; i++) {
+                    if (i > left && nums[i] == nums[i - 1]) {
                         continue;
                     }
                     record.push(nums[i]);
-                    kSum(nums, i + 1, upper, n - 1, target - nums[i]);
+                    kSum(nums, i + 1, n - 1, target - nums[i]);
                     record.pop();
                 }
             }

@@ -27,4 +27,4 @@
  <li><code>strs[i]</code> consists of only lowercase English letters.</li> 
 </ul>
 
-<div><div>Related Topics</div><div><li>String</li></div></div><br><div><li>👍 10398</li><li>👎 3393</li></div>
+<div><div>Related Topics</div><div><li>String</li></div></div><br><div><li>👍 10365</li><li>👎 3391</li></div>

@@ -38,14 +38,17 @@ import java.util.Comparator;
 
 public class P31NextPermutation {
     public static void main(String[] args) {
-        // Solution solution = new P31NextPermutation().new Solution();
-        // TO TEST
+         Solution solution = new P31NextPermutation().new Solution();
+        int[] nums = {1, 2, 4, 9, 5, 3};
+        solution.nextPermutation(nums);
+        System.out.println(Arrays.toString(nums));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         // 1  2   4  9  5  3
         // 1  2   9  4  5  3
+        // ---- 1  2  5  3  4  9
 //        public void nextPermutation(int[] nums) {
 //            nextPermutation(nums, 0, nums.length - 1);
 //        }

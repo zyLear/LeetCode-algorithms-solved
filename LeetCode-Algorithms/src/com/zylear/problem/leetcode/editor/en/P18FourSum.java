@@ -40,40 +40,40 @@ public class P18FourSum {
         public List<List<Integer>> fourSum(int[] nums, int target) {
             //配合 twoSum双指针解法
             Arrays.sort(nums);
-            kSum(nums, 0, nums.length - 1, 4, target);
+            kSum(nums, 0, 4, target);
             return result;
         }
 
 
-        private void kSum(int[] nums, int lower, int upper, int n, int target) {
+        private void kSum(int[] nums, int left, int n, long target) {
             if (n == 2) {
-
-                while (lower < upper) {
-                    if (nums[lower] + nums[upper] == target) {
+                int right = nums.length - 1;
+                while (left < right) {
+                    if (nums[left] + nums[right] == target) {
                         ArrayList<Integer> integers = new ArrayList<>(record);
-                        integers.add(nums[lower]);
-                        integers.add(nums[upper]);
+                        integers.add(nums[left]);
+                        integers.add(nums[right]);
                         result.add(integers);
                         //同一组内 找到新的起点
-                        int temp = nums[lower];
+                        int temp = nums[left];
                         do {
-                            lower++;
-                        } while (lower < upper && nums[lower] == temp);
+                            left++;
+                        } while (left < right && nums[left] == temp);
 
-                    } else if (nums[lower] + nums[upper] > target) {
-                        upper--;
+                    } else if (nums[left] + nums[right] > target) {
+                        right--;
                     } else {
-                        lower++;
+                        left++;
                     }
                 }
 
             } else if (n > 2) {
-                for (int i = lower; i < upper - 1; i++) {
-                    if (i > lower && nums[i] == nums[i - 1]) {
+                for (int i = left; i < nums.length - 2; i++) {
+                    if (i > left && nums[i] == nums[i - 1]) {
                         continue;
                     }
                     record.push(nums[i]);
-                    kSum(nums, i + 1, upper, n - 1, target - nums[i]);
+                    kSum(nums, i + 1, n - 1, target - nums[i]);
                     record.pop();
                 }
             }

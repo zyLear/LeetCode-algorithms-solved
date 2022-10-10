@@ -34,16 +34,46 @@ package com.zylear.problem.leetcode.editor.en;
 public class P121BestTimeToBuyAndSellStock {
     public static void main(String[] args) {
         Solution solution = new P121BestTimeToBuyAndSellStock().new Solution();
-        int[] array = {7, 1, 5, 3, 6, 4};
+        int[] array = {1,2};
         System.out.println(solution.maxProfit(array));
         // TO TEST
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int maxProfit(int[] prices) {
+        public int maxProfit1(int[] prices) {
 
             return 0;
+        }
+
+        public int maxProfit(int[] prices) {
+            if (prices.length == 0) {
+                return 0;
+            }
+            int profit = 0;
+            int peak = 0;
+            int valley = prices[0];
+            int i = 0;
+
+            while (i < prices.length) {
+
+                //双循环截断，重要！！！！  条件跟外层一样
+//                while (i < prices.length - 1 && prices[i] >= prices[i + 1]) {
+//                    i++;
+//                }
+
+                valley = Math.min(prices[i], valley);
+
+//                while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
+//                    i++;
+//                }
+                peak = prices[i];
+
+                profit = Math.max(peak - valley, profit);
+                i++;
+
+            }
+            return profit;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
