@@ -18,6 +18,7 @@ public class Exam1 {
         }
 
 
+
     }
 
     private static void handle(String string) {

@@ -16,7 +16,9 @@ package com.zylear.problem.leetcode.editor.en;
 
 import com.zylear.problem.leetcode.editor.en.base.ListNode;
 
-public class P92ReverseLinkedListIi {
+public class
+
+P92ReverseLinkedListIi {
     public static void main(String[] args) {
         // Solution solution = new P92ReverseLinkedListIi().new Solution();
         // TO TEST
