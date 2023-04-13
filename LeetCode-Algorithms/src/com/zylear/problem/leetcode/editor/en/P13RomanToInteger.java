@@ -75,9 +75,9 @@ public class P13RomanToInteger {
     public static void main(String[] args) {
         Solution solution = new P13RomanToInteger().new Solution();
     }
-    
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
 
 //I             1
 //V             5
@@ -87,27 +87,42 @@ class Solution {
 //D             500
 //M             1000
 
-    private Map<Character, Integer> map = new HashMap<>() {{
-        put('I', 1);
-        put('V', 5);
-        put('X', 10);
-        put('L', 50);
-        put('C', 100);
-        put('D', 500);
-        put('M', 1000);
-    }};
+        private Map<Character, Integer> map = new HashMap() {{
+            put('I', 1);
+            put('V', 5);
+            put('X', 10);
+            put('L', 50);
+            put('C', 100);
+            put('D', 500);
+            put('M', 1000);
+        }};
 
 
+        public int romanToInt(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
 
-    public int romanToInt(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
+            int count = 0;
+            for (int i = 0; i < s.length(); i++) {
+                if (i < s.length() - 1) {
+                    int current = map.get(s.charAt(i));
+                    int next = map.get(s.charAt(i + 1));
+                    if (current < next) {
+                        count += next - current;
+                        i++;
+                    } else {
+                        count += current;
+                    }
+                } else {
+                    count += map.get(s.charAt(i));
+                }
+            }
+
+            return count;
         }
-
-        return 0;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
-    
+
 }
