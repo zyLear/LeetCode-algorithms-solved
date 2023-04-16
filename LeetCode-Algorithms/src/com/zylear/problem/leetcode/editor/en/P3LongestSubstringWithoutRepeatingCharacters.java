@@ -64,7 +64,7 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
 
         public int lengthOfLongestSubstring(String s) {
             Map<Character, Integer> map = new HashMap<>();
-            //上次不相等的地方
+            //这个start很关键，存的是最后一个不重复（相等）的下标
             int start = 0;
             int end = 0;
             int max = 0;
@@ -73,6 +73,7 @@ public class P3LongestSubstringWithoutRepeatingCharacters {
                 if (map.containsKey(s.charAt(end))) {
                     start = Math.max(map.get(s.charAt(end)), start);
                 }
+                //设置或更新当前字符的最后一个不重复（相等）的下标，所以要+1
                 map.put(s.charAt(end), end + 1);
                 max = Math.max(max, end - start + 1);
                 end++;
