@@ -66,6 +66,10 @@ package com.zylear.problem.leetcode.editor.en;
 // Related Topics Hash Table Math String 👍 4032 👎 4433
 
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 public class P12IntegerToRoman {
     public static void main(String[] args) {
         Solution solution = new P12IntegerToRoman().new Solution();
@@ -74,7 +78,37 @@ public class P12IntegerToRoman {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public String intToRoman(int num) {
-            return null;
+
+            HashMap<Integer,String> map = new HashMap(){{
+                put(1, "I");
+                put(4, "IV");
+                put(5, "V");
+                put(9, "IX");
+                put(10, "X");
+                put(40, "XL");
+                put(50, "L");
+                put(90, "XC");
+                put(100, "C");
+                put(400, "CD");
+                put(500, "D");
+                put(900, "CM");
+                put(1000, "M");
+            }};
+
+
+            List<Integer> list = Arrays.asList(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (Integer number : list) {
+                //使用减法
+                while (num - number >= 0) {
+                    num -= number;
+                    stringBuilder.append(map.get(number));
+                }
+            }
+
+            return stringBuilder.toString();
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
