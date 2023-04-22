@@ -88,19 +88,23 @@ public class P39CombinationSum {
         }
 
         private void backtrack(int indexOfAttempts, int sum, int[] candidates, int target) {
+
             if (sum > target) {
                 return;
             }
+            if (sum == target) {
+                List<Integer> list = new ArrayList<>(record);
+                result.add(list);
+                return;
+            }
+
             for (int i = indexOfAttempts; i < candidates.length; i++) {
-                if (sum + candidates[i] == target) {
-                    List<Integer> list = new ArrayList<>(record);
-                    list.add(candidates[i]);
-                    result.add(list);
-                }else if(sum + candidates[i] < target){
-                    record.push(candidates[i]);
-                    backtrack(i, sum + candidates[i], candidates, target);
-                    record.pop();
+                if (sum + candidates[i] > target) {
+                    continue;
                 }
+                record.push(candidates[i]);
+                backtrack(i, sum + candidates[i], candidates, target);
+                record.pop();
             }
 
         }

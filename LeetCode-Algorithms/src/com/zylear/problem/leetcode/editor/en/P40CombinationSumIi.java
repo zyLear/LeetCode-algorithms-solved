@@ -72,23 +72,25 @@ public class P40CombinationSumIi {
             if (sum > target) {
                 return;
             }
+            if (sum == target) {
+                List<Integer> list = new ArrayList<>(record);
+                result.add(list);
+                return;
+            }
+
             for (int i = indexOfAttempts; i < candidates.length; i++) {
+                //同一个元素不重复使用，防止出现重复的结果，因为如果元素重复的话，
+                //i 和 i+1回溯得到的结果的是一样的，主要是去重
                 //对于本次（不能跨次） 尝试集处理来说  只要后面有一个跟前一个重复的  就跳过
                 if (i > indexOfAttempts && candidates[i] == candidates[i - 1]) {
                     continue;
                 }
+                if (sum + candidates[i] > target) {
 
-
-                if (sum + candidates[i] == target) {
-
-                    List<Integer> list = new ArrayList<>(record);
-                    list.add(candidates[i]);
-                    result.add(list);
-                } else if (sum + candidates[i] < target) {
-                    record.push(candidates[i]);
-                    backtrack(i + 1, sum + candidates[i], candidates, target);
-                    record.pop();
                 }
+                record.push(candidates[i]);
+                backtrack(i + 1, sum + candidates[i], candidates, target);
+                record.pop();
             }
 
         }

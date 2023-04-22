@@ -76,6 +76,7 @@ public class P15ThreeSum {
 
             } else if (n > 2) {
                 for (int i = left; i < nums.length - 2; i++) {
+                    //跳过重复的
                     if (i > left && nums[i] == nums[i - 1]) {
                         continue;
                     }

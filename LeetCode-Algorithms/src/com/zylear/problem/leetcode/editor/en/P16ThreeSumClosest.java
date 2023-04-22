@@ -32,7 +32,18 @@ public class P16ThreeSumClosest {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int threeSumClosest(int[] nums, int target) {
+
+//        private int diff
+//
+//        public int threeSumClosest(int[] nums, int target) {
+//
+//            return 0;
+//
+//        }
+
+
+
+        public int threeSumClosest1(int[] nums, int target) {
 
             Integer sum = null;
             Integer diff = Integer.MAX_VALUE;
