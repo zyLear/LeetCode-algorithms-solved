@@ -41,17 +41,31 @@ public class P121BestTimeToBuyAndSellStock {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int maxProfit1(int[] prices) {
 
-            return 0;
+        //动态规划法
+        public int maxProfit(int[] prices) {
+
+            //dp[i][0] 表示在i天时不持有股票手上最大金额
+            //dp[i][1] 表示在i天时持有股票手上最大金额
+            int[][] dp = new int[prices.length][2];
+            dp[0][0] = 0;
+            dp[0][1] = -prices[0];
+            //第二天开始
+            for (int i = 1; i < prices.length; i++) {
+                //之前已经卖出||今天卖出  求最大值
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+                //昨天已经买入||今天买入  求最大值
+                dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
+            }
+            return dp[prices.length - 1][0];
         }
 
-        public int maxProfit(int[] prices) {
+        public int maxProfit1(int[] prices) {
             if (prices.length == 0) {
                 return 0;
             }
             int profit = 0;
-            int peak = 0;
+//            int peak = 0;
             int valley = prices[0];
             int i = 0;
 
@@ -67,9 +81,9 @@ public class P121BestTimeToBuyAndSellStock {
 //                while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
 //                    i++;
 //                }
-                peak = prices[i];
+//                peak = prices[i];
 
-                profit = Math.max(peak - valley, profit);
+                profit = Math.max(prices[i] - valley, profit);
                 i++;
 
             }
