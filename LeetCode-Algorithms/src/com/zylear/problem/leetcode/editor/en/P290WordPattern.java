@@ -51,6 +51,7 @@ package com.zylear.problem.leetcode.editor.en;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class P290WordPattern {
     public static void main(String[] args) {
@@ -60,7 +61,46 @@ public class P290WordPattern {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
         public boolean wordPattern(String pattern, String s) {
+            if (s == null && pattern == null) {
+                return true;
+            }
+            if ("".equals(s) && "".equals(pattern)) {
+                return true;
+            }
+
+            String[] strings = s.split(" ");
+
+            if (pattern.length() != strings.length) {
+                return false;
+            }
+
+            //用两个map，互相映射
+            Map<String, String> map1 = new HashMap<>();
+            Map<String, String> map2 = new HashMap<>();
+
+            for (int i = 0; i < pattern.length(); i++) {
+                String s1 = String.valueOf(pattern.charAt(i));
+                String s2 = strings[i];
+                String mapS1 = map1.get(s1);
+                String mapS2 = map2.get(s2);
+                if (mapS2 == null) {
+                    if (mapS1 != null) {
+                        return false;
+                    }
+                    map1.put(s1, s2);
+                    map2.put(s2, s1);
+                }else{
+                    if (!Objects.equals(map1.get(s1), s2) || !Objects.equals(map2.get(s2), s1)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public boolean wordPattern1(String pattern, String s) {
 
             if (s == null && pattern == null) {
                 return true;
