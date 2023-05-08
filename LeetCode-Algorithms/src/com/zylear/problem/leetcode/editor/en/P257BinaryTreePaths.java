@@ -53,7 +53,7 @@ public class P257BinaryTreePaths {
     class Solution {
 
         private List<String> result = new ArrayList<>();
-        private Stack<Integer> stack = new Stack<>();
+        private Stack<String> stack = new Stack<>();
 
         public List<String> binaryTreePaths(TreeNode root) {
             findPath(root);
@@ -62,18 +62,10 @@ public class P257BinaryTreePaths {
 
         public void findPath(TreeNode node) {
             if (node != null) {
-                stack.push(node.val);
+                stack.push(String.valueOf(node.val));
 
                 if (node.left == null && node.right == null) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < stack.size(); i++) {
-                        Integer integer = stack.get(i);
-                        stringBuilder.append(integer);
-                        if (i != stack.size() - 1) {
-                            stringBuilder.append("->");
-                        }
-                    }
-                    result.add(stringBuilder.toString());
+                    result.add(String.join("->", stack));
                 }
                 findPath(node.left);
                 findPath(node.right);
