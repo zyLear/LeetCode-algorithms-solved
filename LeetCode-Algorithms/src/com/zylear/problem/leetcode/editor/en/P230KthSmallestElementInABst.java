@@ -83,22 +83,19 @@ public class P230KthSmallestElementInABst {
             return min;
         }
 
-        public boolean inorderTree(TreeNode treeNode) {
-            if (treeNode == null) {
-                return false;
-            }else {
+        public void inorderTree(TreeNode treeNode) {
+            if (treeNode != null) {
+                inorderTree(treeNode.left);
 
-                boolean finish = inorderTree(treeNode.left);
-                if (finish) {
-                    return true;
-                }
                 count--;
-                if (count <= 0) {
+                if (count == 0) {
                     min = treeNode.val;
-                    return true;
+                    return;
+                } else if (count < 0) {
+                    return;
                 }
 
-                return inorderTree(treeNode.right);
+                inorderTree(treeNode.right);
             }
         }
     }
