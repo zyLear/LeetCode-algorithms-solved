@@ -62,7 +62,6 @@ public class P102BinaryTreeLevelOrderTraversal {
             List<List<Integer>> result = new LinkedList<>();
 
             Queue<TreeNode> queue = new LinkedList<>();
-            Queue<TreeNode> tempQueue = new LinkedList<>();
 
 
             queue.add(root);
@@ -73,26 +72,20 @@ public class P102BinaryTreeLevelOrderTraversal {
 
                 List<Integer> levelList = new ArrayList<>();
 
-                while (!queue.isEmpty()) {
-
-                    TreeNode node = queue.poll();
-                    //先处理同一层  不加入visitQueue，先加入tempQueue
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
+                    TreeNode node = queue.remove();
+                    //先处理同一层
                     if (node.left != null) {
                         levelList.add(node.left.val);
-                        tempQueue.add(node.left);
+                        queue.add(node.left);
                     }
 
                     if (node.right != null) {
                         levelList.add(node.right.val);
-                        tempQueue.add(node.right);
+                        queue.add(node.right);
                     }
                 }
-
-
-                while (!tempQueue.isEmpty()) {
-                    queue.add(tempQueue.remove());
-                }
-
                 if (!levelList.isEmpty()) {
                     result.add(levelList);
                 }

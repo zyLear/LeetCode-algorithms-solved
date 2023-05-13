@@ -31,9 +31,8 @@ public class P176SecondHighestSalary{
         // Solution solution = new P176SecondHighestSalary().new Solution();
         // TO TEST
 
-        // select Salary from Employee where id not in (select id from Employee where Salary =
-        // (select max(Salary) from Employee ))
-        // order by Salary desc limit 1
+        //select max(salary) as SecondHighestSalary from Employee
+        //where salary not in (select max(salary) as Salary  from Employee);
     }
     
     //There is no code of Java type for this problem

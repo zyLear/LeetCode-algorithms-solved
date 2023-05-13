@@ -64,7 +64,14 @@ public class P191NumberOf1Bits {
     public class Solution {
         // you need to treat n as an unsigned value
         public int hammingWeight(int n) {
-            return 1;
+
+            int count = 0;
+            //java中 n有可能是负数，所以用n==0判断结束循环
+            while (n != 0) {
+                count += (n & 1);
+                n >>>= 1;
+            }
+            return count;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

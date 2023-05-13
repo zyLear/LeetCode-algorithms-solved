@@ -56,19 +56,19 @@ public class P190ReverseBits {
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
-public class Solution {
-    // you need treat n as an unsigned value
-    public int reverseBits(int n) {
-        int result = 0;
-        int count = 32;
-        while (count-- > 0) {
-            //获取最后一位
-            int tail = n & 1;
-            //原数字右移一位
-            n = n >> 1;
-            //拼到结果最后一位 用or去加bit
-            result = (result << 1) | tail;
-        }
+    public class Solution {
+        // you need treat n as an unsigned value
+        public int reverseBits(int n) {
+            int result = 0;
+            int count = 32;
+            while (count-- > 0) {
+                //获取最后一位
+                int tail = n & 1;
+                //原数字右移一位
+                n = n >>> 1;
+                //拼到结果最后一位 用or去加bit
+                result = (result << 1) | tail;
+            }
 
             return result;
         }
