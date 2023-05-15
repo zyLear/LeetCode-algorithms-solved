@@ -67,65 +67,44 @@ public class P99RecoverBinarySearchTree {
     class Solution {
 
 
+        private TreeNode first;
+        private TreeNode second;
+
+        //中序遍历的上一个节点
+        private TreeNode prev;
+
+
+        //中序遍历之后有两个节点是不对的
+        // 9 2 2 3 5 1
+        //第一个点：大于右边的节点
+        //第二个点：小于左边的节点
         public void recoverTree(TreeNode root) {
 
-            recoverTree(root, new TreeNode(Integer.MIN_VALUE), new TreeNode(Integer.MAX_VALUE));
+            doRecoverTree(root);
+            int temp = first.val;
+            first.val = second.val;
+            second.val = temp;
         }
 
-        public boolean recoverTree(TreeNode node, TreeNode min, TreeNode max) {
-            if (node != null) {
-                if (node.val < min.val) {
-                    int temp = node.val;
-                    node.val = min.val;
-                    min.val = temp;
-                    System.out.println("mm");
-                    return true;
-                } else if (node.val > max.val) {
-                    int temp = node.val;
-                    node.val = max.val;
-                    max.val = temp;
-                    System.out.println("aa");
-                    System.out.println(node.val);
-                    System.out.println(max.val);
-                    return true;
-                }
+        public void doRecoverTree(TreeNode node) {
 
-
-                return recoverTree(node.left, min, node)
-                        || recoverTree(node.right, node, max);
+            if (node == null) {
+                return;
             }
-            return false;
-        }
 
-//        public boolean recoverTree(TreeNode node, TreeNode max, TreeNode min, boolean isLeft) {
-//            if (node != null) {
-//                if (node.right != null && node.right.val < min.val) {
-//                    int temp = node.right.val;
-//                    node.right.val = min.val;
-//                    min.val = temp;
-//                    System.out.println("aa");
-//                    return true;
-//                } else if (node.left != null && node.left.val > max.val) {
-//                    int temp = node.left.val;
-//                    node.left.val = max.val;
-//                    max.val = temp;
-//                    System.out.println("aa");
-//                    return true;
-//                }
-//                if (isLeft) {
-//                     max = max.val > node.val ? max : node;
-//                } else {
-//                    minNode = min.val < node.val ? min : node;
-//                }
-//
-//                boolean a = recoverTree(node.left, max, min, true);
-//                if (a) {
-//                    return true;
-//                }
-//                return recoverTree(node.right, max, min, false);
-//            }
-//            return false;
-//        }
+            doRecoverTree(node.left);
+            //find first
+            if (prev != null && prev.val > node.val) {
+                if (first == null) {
+                    first = prev;
+                }
+                //第二个位置有两种情况，第一种情况错误节点是连起来的，第二种情况是隔开一个节点以上
+                //second节点取最后一个节点就行
+                second = node;
+            }
+            prev = node;
+            doRecoverTree(node.right);
+        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

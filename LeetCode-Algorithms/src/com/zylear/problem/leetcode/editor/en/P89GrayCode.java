@@ -40,6 +40,9 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 734 👎 1677
 
 
+import com.sun.org.apache.xml.internal.utils.res.XResources_sv;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,27 +59,21 @@ public class P89GrayCode {
         int record = 0;
 
         public List<Integer> grayCode(int n) {
-            //todo
-//
-//            backtrack(0, n);
+
+            List<Integer> result = new ArrayList<>();
+            // n = 0 的 grayCode
+            result.add(0);
+
+            for (int i = 0; i < n; i++) {
+                //最前面的位置
+                int first = 1 << i;
+                int size = result.size();
+                for (int j = size - 1; j >= 0; j--) {
+                    result.add(result.get(j) | first);
+                }
+            }
             return result;
         }
-//
-//        private void backtrack(int count, int n) {
-//            if (count == n) {
-//                result.add(record);
-//                return;
-//            }
-//
-//            record = (record << 1) + 1;
-//            backtrack(count + 1, n);
-//            record = record >> 1;
-//
-//            record = record << 1;
-//            backtrack(count + 1, n);
-//            record = record >> 1;
-
-//        }
     }
     //leetcode submit region end(Prohibit modification and deletion)
 
