@@ -108,22 +108,17 @@ public class P148SortList {
             if (head == null) {
                 return null;
             } else {
-                ListNode prev = null;
-                ListNode fast = head;
-                ListNode slow = head;
+                ListNode fast = new ListNode();
+                ListNode slow = fast;
+                fast.next = head;
                 while (fast != null && fast.next != null) {
-                    prev = slow;
                     fast = fast.next.next;
                     slow = slow.next;
                 }
-                if (prev != null) {
-                    prev.next = null;
-                }
-                return slow;
-
+                ListNode result = slow.next;
+                slow.next = null;
+                return result;
             }
-
-
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

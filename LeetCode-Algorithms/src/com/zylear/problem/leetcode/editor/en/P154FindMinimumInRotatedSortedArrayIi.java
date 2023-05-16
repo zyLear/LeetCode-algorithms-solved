@@ -44,26 +44,24 @@ public class P154FindMinimumInRotatedSortedArrayIi{
             int upper = nums.length - 1;
 
             while (lower < upper) {
-                if (lower + 1 == upper) {
-                    return Math.min(nums[lower], nums[upper]);
-                }
 
                 int mid = lower + (upper - lower) / 2;
-                if (nums[lower] == nums[mid]) {
-                    lower++;
-                    continue;
-                }
-
-
-                //以用单调性 + 头尾判断
-                if (nums[lower] <= nums[mid] ) {
-                    if (nums[upper] > nums[lower]) {
-                        return nums[lower];
-                    }else {
-                        lower = mid;
-                    }
+                //单调递增
+                if (nums[lower] < nums[upper]) {
+                    return nums[lower];
                 } else {
-                    upper = mid;
+                    //最小值在两点之间，用中间点缩小范围
+                    if (nums[lower] < nums[mid]) {
+                        //中间点在左半部分,最小值肯定还在右边，所以+1
+                        lower = mid + 1;
+                    } else if (nums[lower] > nums[mid]) {
+                        //中间点在右半部分，最小值可能是mid，所以不加1
+                        upper = mid;
+                    } else {
+                        //存在重复的节点，不能判断 中间点的位置，只能++做下一次判断
+                        //本题目不存在重复的节点，所以先注释掉
+                        lower++;
+                    }
                 }
             }
 
