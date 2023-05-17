@@ -70,8 +70,10 @@ public class P143ReorderList {
                 return;
             }
 
-            ListNode fast = head;
-            ListNode slow = head;
+            ListNode sentinel = new ListNode();
+            sentinel.next = head;
+            ListNode fast = sentinel;
+            ListNode slow = fast;
 
             //find mid point
             while (fast != null && fast.next != null) {

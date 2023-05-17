@@ -86,23 +86,16 @@ public class P145BinaryTreePostorderTraversal {
      */
     class Solution {
 
-        public List<Integer> postorderTraversal(TreeNode root) {
-            if (root == null) {
-                return Collections.emptyList();
-            }
-            LinkedList<Integer> list = new LinkedList<>();
-            postorderTraversal(root, list);
-            return list;
-        }
+        private LinkedList<Integer> list = new LinkedList<>();
 
-        public void postorderTraversal(TreeNode root, List<Integer> list) {
+        public List<Integer> postorderTraversal(TreeNode root) {
             if (root != null) {
-                postorderTraversal(root.left, list);
-                postorderTraversal(root.right, list);
+                postorderTraversal(root.left);
+                postorderTraversal(root.right);
                 list.add(root.val);
             }
+            return list;
         }
-
 
         public List<Integer> postorderTraversal3(TreeNode root) {
             if (root == null) {
@@ -134,7 +127,7 @@ public class P145BinaryTreePostorderTraversal {
             Stack<TreeNode> stack = new Stack<>();
 
             putLeftSize(root, stack);
-            //记录上一次便利的节点  给中间节点判断
+            //记录上一次遍历的节点  给中间节点判断
             TreeNode lastVisit = null;
             while (!stack.isEmpty()) {
                 TreeNode node = stack.pop();

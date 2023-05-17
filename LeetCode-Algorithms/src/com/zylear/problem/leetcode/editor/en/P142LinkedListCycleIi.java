@@ -75,29 +75,21 @@ public class P142LinkedListCycleIi {
     public class Solution {
         public ListNode detectCycle(ListNode head) {
 
-            ListNode current = head;
-            if (current == null || current.next == null) {
-                return null;
-            }
-            ListNode slow = current.next;
-            ListNode fast = current.next.next;
-            while (fast != slow) {
-                if (fast == null || fast.next == null) {
-                    return null;
-                }
-                fast = fast.next.next;
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
                 slow = slow.next;
-
+                fast = fast.next.next;
+                if (fast == slow) {
+                    //根据相遇点求出交点
+                    while (fast != head) {
+                        fast = fast.next;
+                        head = head.next;
+                    }
+                    return fast;
+                }
             }
-
-
-            while (fast != current) {
-                fast = fast.next;
-                current = current.next;
-            }
-            return fast;
-
-
+            return null;
         }
     }
     //leetcode submit region end(Prohibit modification and deletion)

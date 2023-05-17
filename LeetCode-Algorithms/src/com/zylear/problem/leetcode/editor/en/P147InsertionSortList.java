@@ -73,11 +73,11 @@ public class P147InsertionSortList {
                     current = current.next;
                 }
 
-                ListNode temp = current.next;
+                ListNode currentNext = current.next;
+                ListNode headNext = head.next;
                 current.next = head;
-                head = head.next;
-                current.next.next = temp;
-
+                head.next=currentNext;
+                head = headNext;
             }
 
             return result.next;
