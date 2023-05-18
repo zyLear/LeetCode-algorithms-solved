@@ -71,17 +71,7 @@ public class P121BestTimeToBuyAndSellStock {
 
             while (i < prices.length) {
 
-                //双循环截断，重要！！！！  条件跟外层一样
-//                while (i < prices.length - 1 && prices[i] >= prices[i + 1]) {
-//                    i++;
-//                }
-
                 valley = Math.min(prices[i], valley);
-
-//                while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
-//                    i++;
-//                }
-//                peak = prices[i];
 
                 profit = Math.max(prices[i] - valley, profit);
                 i++;

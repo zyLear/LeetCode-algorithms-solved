@@ -73,18 +73,47 @@ public class P129SumRootToLeafNumbers {
 
         private Stack<Integer> stack = new Stack<>();
         private Integer result = 0;
+
         public int sumNumbers(TreeNode root) {
-            inorderTree(root);
+            backtrackTraversalTree(root, null);
             return result;
         }
 
-        public void inorderTree(TreeNode node) {
+
+        public void backtrackTraversalTree(TreeNode left,TreeNode right) {
+           //经典回溯法，先判断结果集退出
+            if (left == null && right == null) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Integer integer : stack) {
+                    stringBuilder.append(integer);
+                }
+                result += Integer.parseInt(stringBuilder.toString());
+                return;
+            }
+
+            if (left != null) {
+                stack.push(left.val);
+                backtrackTraversalTree(left.left, left.right);
+                stack.pop();
+            }
+
+            if (right != null) {
+                stack.push(right.val);
+                backtrackTraversalTree(right.left, right.right);
+                stack.pop();
+            }
+        }
+
+
+        public int sumNumbersTypical(TreeNode root) {
+            dfsTraversalTree(root);
+            return result;
+        }
+
+        public void dfsTraversalTree(TreeNode node) {
             if (node != null) {
-
+                //这一层的尝试集只有一个，就是自身节点
                 stack.push(node.val);
-
-                inorderTree(node.left);
-
                 if (node.left == null && node.right == null) {
                     StringBuilder stringBuilder = new StringBuilder();
                     for (Integer integer : stack) {
@@ -92,8 +121,9 @@ public class P129SumRootToLeafNumbers {
                     }
                     result += Integer.parseInt(stringBuilder.toString());
                 }
-
-                inorderTree(node.right);
+                //下一层尝试集有两个
+                dfsTraversalTree(node.left);
+                dfsTraversalTree(node.right);
 
                 stack.pop();
             }

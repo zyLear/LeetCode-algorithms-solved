@@ -57,7 +57,7 @@ public class P132PalindromePartitioningIi {
             for (int i = 1; i <= s.length(); i++) {
                 for (int j = 1; j <= i; j++) {
                     if (j == 1) {
-                        String substring = s.substring(j - 1, i);
+                        String substring = s.substring(0, i);
                         if (judge(substring)) {
                             dp[i] = 1;
                             break;

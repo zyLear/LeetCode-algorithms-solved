@@ -74,7 +74,7 @@ public class P134GasStation {
     class Solution {
         public int canCompleteCircuit(int[] gas, int[] cost) {
             int total = 0;
-            int index = -1;
+            int resultIndex = -1;
             int currentGas = 0;
             for (int i = 0; i < gas.length; i++) {
                 int temp = gas[i] - cost[i];
@@ -85,17 +85,17 @@ public class P134GasStation {
                 //说明上一个选个position不行 置空
                 if (currentGas < 0) {
                     currentGas = 0;
-                    index = -1;
+                    resultIndex = -1;
                 }
 
-                //找到第一个性价比为正的position
-                if (index == -1 && temp >= 0) {
-                    index = i;
+                //找到个性价比为正的position，加油量大于消耗量
+                if (resultIndex == -1 && temp >= 0) {
+                    resultIndex = i;
                 }
             }
 
             if (total >= 0) {
-                return index;
+                return resultIndex;
             } else {
                 return -1;
             }

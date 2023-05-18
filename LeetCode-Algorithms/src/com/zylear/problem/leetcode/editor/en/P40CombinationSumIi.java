@@ -85,9 +85,6 @@ public class P40CombinationSumIi {
                 if (i > indexOfAttempts && candidates[i] == candidates[i - 1]) {
                     continue;
                 }
-                if (sum + candidates[i] > target) {
-
-                }
                 record.push(candidates[i]);
                 backtrack(i + 1, sum + candidates[i], candidates, target);
                 record.pop();
