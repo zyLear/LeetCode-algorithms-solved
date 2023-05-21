@@ -98,8 +98,7 @@ public class P110BalancedBinaryTree {
             return Math.abs(Math.abs(depth(root.left))
                     - Math.abs(depth(root.right))) <= 1 &&
                     isBalanced1(root.left) &&
-                    isBalanced1(root.right)
-                    ;
+                    isBalanced1(root.right);
         }
 
         public boolean isBalanced(TreeNode root, Boolean bool) {

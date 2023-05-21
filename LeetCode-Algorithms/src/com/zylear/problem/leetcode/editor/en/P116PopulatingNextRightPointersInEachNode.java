@@ -120,7 +120,7 @@ class Node {
                 int size = queue.size();
                 Node prev = null;
                 for (int i = 0; i < size; i++) {
-                    Node node = queue.poll();
+                    Node node = queue.remove();
 
                     if (prev != null) {
                         prev.next = node;
