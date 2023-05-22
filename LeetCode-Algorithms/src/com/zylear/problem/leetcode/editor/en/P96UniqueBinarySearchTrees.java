@@ -46,7 +46,6 @@ public class P96UniqueBinarySearchTrees {
 
 
         public int numTrees(int n) {
-//            lowDp = new int[n + 1][n + 1];
             dp = new int[n + 1];
 
             dp[0] = 1;
@@ -62,10 +61,6 @@ public class P96UniqueBinarySearchTrees {
 
             }
             return dp[n];
-
-//            return numTrees(1, n);
-
-//            return 0;
         }
 
         //暴力求解  保存中间计算结果 时间就不超时了

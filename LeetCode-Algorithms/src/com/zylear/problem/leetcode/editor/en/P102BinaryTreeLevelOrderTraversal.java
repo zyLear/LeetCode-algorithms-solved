@@ -65,7 +65,6 @@ public class P102BinaryTreeLevelOrderTraversal {
 
 
             queue.add(root);
-            result.add(Collections.singletonList(root.val));
 
 
             while (!queue.isEmpty()) {
@@ -75,14 +74,13 @@ public class P102BinaryTreeLevelOrderTraversal {
                 int size = queue.size();
                 for (int i = 0; i < size; i++) {
                     TreeNode node = queue.remove();
+                    levelList.add(node.val);
                     //先处理同一层
                     if (node.left != null) {
-                        levelList.add(node.left.val);
                         queue.add(node.left);
                     }
 
                     if (node.right != null) {
-                        levelList.add(node.right.val);
                         queue.add(node.right);
                     }
                 }

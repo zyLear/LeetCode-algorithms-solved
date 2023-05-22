@@ -67,18 +67,42 @@ public class P98ValidateBinarySearchTree {
      * }
      */
     class Solution {
+
+        private TreeNode prev;
+
+
+        //利用中序遍历比较大小
         public boolean isValidBST(TreeNode root) {
-            return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+
+            if (root == null) {
+                return true;
+            }
+
+            if (!isValidBST(root.left)) {
+                return false;
+            }
+
+            if (prev != null && prev.val >= root.val) {
+                return false;
+            }
+
+            prev = root;
+
+            return isValidBST(root.right);
+        }
+
+        public boolean isValidBST1(TreeNode root) {
+            return isValidBST1(root, Long.MIN_VALUE, Long.MAX_VALUE);
         }
 
 
-        public boolean isValidBST(TreeNode node, Long min, Long max) {
+        public boolean isValidBST1(TreeNode node, Long min, Long max) {
             if (node == null) {
                 return true;
             } else {
                 if (node.val > min && node.val < max) {
-                    if (isValidBST(node.left, min, (long) node.val) &&
-                            isValidBST(node.right, (long) node.val, max)) {
+                    if (isValidBST1(node.left, min, (long) node.val) &&
+                            isValidBST1(node.right, (long) node.val, max)) {
                         return true;
                     }
                 }

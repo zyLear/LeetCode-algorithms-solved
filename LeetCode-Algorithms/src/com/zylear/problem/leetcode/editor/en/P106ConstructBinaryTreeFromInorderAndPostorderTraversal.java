@@ -57,17 +57,17 @@ public class P106ConstructBinaryTreeFromInorderAndPostorderTraversal {
         //根据前序遍历后序遍历找到 中间节点
         //在中序数组中找到中间节点的坐标，计算左右子树的长度，递归构建
 
-        public TreeNode buildTree(int[] postorder, int postStart, int postEnd, int[] inorder, int inStart, int inEnd) {
-            if (postStart > postEnd) {
+        public TreeNode buildTree(int[] postorder, int postOrderStart, int postOrderEnd, int[] inorder, int inOrderStart, int inOrderEnd) {
+            if (postOrderStart > postOrderEnd) {
                 return null;
             }
             TreeNode treeNode = new TreeNode();
-            treeNode.val = postorder[postEnd];
-            int index = findIndex(inorder, treeNode.val, inStart, inEnd);
-//            int leftLength = index - inStart;
-            int rightLength = inEnd - index;
-            treeNode.left = buildTree(postorder, postStart, postEnd - rightLength - 1, inorder, inStart, index - 1);
-            treeNode.right = buildTree(postorder, postEnd - rightLength, postEnd - 1, inorder, index + 1, inEnd);
+            treeNode.val = postorder[postOrderEnd];
+            int inOrderListMidIndex = findIndex(inorder, treeNode.val, inOrderStart, inOrderEnd);
+            int leftLength = inOrderListMidIndex - inOrderStart;
+            int rightLength = inOrderEnd - inOrderListMidIndex;
+            treeNode.left = buildTree(postorder, postOrderStart, postOrderStart + leftLength - 1, inorder, inOrderStart, inOrderListMidIndex - 1);
+            treeNode.right = buildTree(postorder, postOrderStart + leftLength, postOrderEnd - 1, inorder, inOrderListMidIndex + 1, inOrderEnd);
             return treeNode;
         }
 

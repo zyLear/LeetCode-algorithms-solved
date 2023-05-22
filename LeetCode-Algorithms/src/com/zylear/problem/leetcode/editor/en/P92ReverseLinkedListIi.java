@@ -73,15 +73,27 @@ P92ReverseLinkedListIi {
          */
         private ListNode reverse(ListNode current, ListNode tailNodeExcluded) {
 
-            if (current.next == tailNodeExcluded) {
-                return current;
+            ListNode prev = null;
+
+            while (current != tailNodeExcluded) {
+                ListNode next = current.next;
+                current.next = prev;
+                prev = current;
+                current = next;
             }
 
-            ListNode next = current.next;
-            ListNode tail = reverse(next, tailNodeExcluded);
-            next.next = current;
-            current.next = null;
-            return tail;
+            return prev;
+
+//
+//            if (current.next == tailNodeExcluded) {
+//                return current;
+//            }
+//
+//            ListNode next = current.next;
+//            ListNode tail = reverse(next, tailNodeExcluded);
+//            next.next = current;
+//            current.next = null;
+//            return tail;
         }
 
     }

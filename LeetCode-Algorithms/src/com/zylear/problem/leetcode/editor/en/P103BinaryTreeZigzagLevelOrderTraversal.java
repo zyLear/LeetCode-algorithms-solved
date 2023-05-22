@@ -73,7 +73,7 @@ public class P103BinaryTreeZigzagLevelOrderTraversal {
                 int size = queue.size();
                 LinkedList<Integer> levelList = new LinkedList<>();
                 for (int i = 0; i < size; i++) {
-                    TreeNode node = queue.poll();
+                    TreeNode node = queue.remove();
                     if (count % 2 == 1) {
                         levelList.add(node.val);
                     }else {
