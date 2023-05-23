@@ -73,15 +73,19 @@ public class P78Subsets {
 
         public List<List<Integer>> subsets(int[] nums) {
 
-            result.add(Collections.emptyList());
             backtrack(0, nums);
             return result;
         }
 
         private void backtrack(int i, int[] nums) {
+            result.add(new ArrayList<>(record));
+
             for (int j = i; j < nums.length; j++) {
+                if (j > i && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+
                 record.push(nums[j]);
-                result.add(new ArrayList<>(record));
                 // 走了第一步之后  后面的结果从j+1开始
                 backtrack(j + 1, nums);
                 record.pop();

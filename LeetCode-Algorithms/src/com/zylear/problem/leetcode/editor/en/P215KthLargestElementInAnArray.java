@@ -34,7 +34,7 @@ public class P215KthLargestElementInAnArray {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
-        public int findKthLargest(int[] nums, int k) {
+        public int findKthLargest1(int[] nums, int k) {
             int destIndex = nums.length - k;
             sort(nums, 0, nums.length - 1, destIndex);
             return nums[destIndex];
@@ -79,20 +79,20 @@ public class P215KthLargestElementInAnArray {
             nums[end] = temp;
         }
 
-        public int findKthLargest1(int[] nums, int k) {
+        public int findKthLargest(int[] nums, int k) {
             Queue<Integer> heap = new PriorityQueue<>();
             for (int i = 0; i < nums.length; i++) {
                 if (i < k) {
                     heap.add(nums[i]);
                 } else {
-                    if (nums[i] > heap.peek()) {
+                    if (nums[i] > heap.element()) {
                         heap.add(nums[i]);
                         heap.remove();
                     }
                 }
 
             }
-            return heap.poll();
+            return heap.remove();
         }
     }
     //leetcode submit region end(Prohibit modification and deletion)

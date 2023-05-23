@@ -24,6 +24,7 @@ package com.zylear.problem.leetcode.editor.en;
 
 
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class P90SubsetsIi {
@@ -35,11 +36,9 @@ public class P90SubsetsIi {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         Stack<Integer> record = new Stack<>();
-        //        Set<List<Integer>> set = new HashSet<>();
         List<List<Integer>> result = new LinkedList<>();
 
         public List<List<Integer>> subsetsWithDup(int[] nums) {
-            result.add(Collections.emptyList());
             Arrays.sort(nums);
             backtrack(0, nums);
 
@@ -48,6 +47,8 @@ public class P90SubsetsIi {
 
         private void backtrack(int indexOfAttempts, int[] nums) {
 
+            ArrayList<Integer> integers = new ArrayList<>(record);
+            result.add(integers);
 
             for (int i = indexOfAttempts; i < nums.length; i++) {
 
@@ -58,11 +59,6 @@ public class P90SubsetsIi {
                 int num = nums[i];
 
                 record.push(num);
-                ArrayList<Integer> integers = new ArrayList<>(record);
-//                if (!set.contains(integers)) {
-//                    set.add(integers);
-                result.add(integers);
-//                }
                 backtrack(i + 1, nums);
                 record.pop();
             }
