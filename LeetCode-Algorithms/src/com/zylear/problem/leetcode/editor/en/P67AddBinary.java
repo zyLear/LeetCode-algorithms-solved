@@ -50,7 +50,7 @@ public class P67AddBinary {
 
                 if (count >= 2) {
                     add = count / 2;
-                    stringBuilder.append(count % 2);
+                    stringBuilder.append(count & 1);
                 }else {
                     add = 0;
                     stringBuilder.append(count);

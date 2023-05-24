@@ -40,6 +40,9 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 4402 👎 254
 
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class P75SortColors {
     public static void main(String[] args) {
          Solution solution = new P75SortColors().new Solution();

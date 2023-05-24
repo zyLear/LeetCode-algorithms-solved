@@ -62,7 +62,7 @@ import java.util.Stack;
 
 public class P71SimplifyPath {
     public static void main(String[] args) {
-         Solution solution = new P71SimplifyPath().new Solution();
+        Solution solution = new P71SimplifyPath().new Solution();
 
         System.out.println(solution.simplifyPath("/home/"));
         // TO TEST
@@ -76,28 +76,15 @@ public class P71SimplifyPath {
             String[] strings = path.split("/");
 
             for (String string : strings) {
-                if (".".equals(string) || "".equals(string)) {
-                    continue;
-                } else if ("..".equals(string)) {
+                if ("..".equals(string)) {
                     if (!stack.isEmpty()) {
                         stack.pop();
                     }
-                } else {
+                } else if (!".".equals(string) && !"".equals(string)) {
                     stack.push(string);
                 }
-
             }
-
-            StringBuilder stringBuilder = new StringBuilder("/");
-            for (int i = 0; i < stack.size(); i++) {
-
-                stringBuilder.append(stack.get(i));
-                if (i != stack.size() - 1) {
-                    stringBuilder.append("/");
-                }
-            }
-
-            return stringBuilder.toString();
+            return "/" + String.join("/", stack);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
