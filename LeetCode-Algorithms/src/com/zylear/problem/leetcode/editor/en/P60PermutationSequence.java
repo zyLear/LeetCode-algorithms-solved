@@ -38,6 +38,10 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 1958 👎 352
 
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
 public class P60PermutationSequence {
     public static void main(String[] args) {
         Solution solution = new P60PermutationSequence().new Solution();
@@ -49,10 +53,10 @@ public class P60PermutationSequence {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
-        boolean[] visited;
-        int count = 0;
-        int record = 0;
-        int size = 0;
+        private boolean[] visited;
+
+        private int count = 0;
+        private final Stack<String> record = new Stack<>();
 
         public String getPermutation(int n, int k) {
             visited = new boolean[n + 1];
@@ -60,30 +64,26 @@ public class P60PermutationSequence {
         }
 
         private String backtracking(int n, int k) {
-            if (size == n) {
+            if (record.size() == n) {
                 count++;
                 if (count == k) {
-                    return String.valueOf(record);
+                    return String.join("", record);
                 }
                 return null;
             }
+
             for (int i = 1; i <= n; i++) {
                 if (!visited[i]) {
-
-                    record = record * 10 + i;
-                    size++;
                     visited[i] = true;
+                    record.push(String.valueOf(i));
                     String backtracking = backtracking(n, k);
                     if (backtracking != null) {
                         return backtracking;
                     }
+                    record.pop();
                     visited[i] = false;
-                    size--;
-                    record = record / 10;
                 }
             }
-
-
             return null;
         }
     }

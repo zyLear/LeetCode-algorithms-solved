@@ -49,22 +49,17 @@ public class P56MergeIntervals {
         public int[][] merge(int[][] intervals) {
             Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
             List<int[]> result = new ArrayList<>();
-            int[] current = Arrays.copyOf(intervals[0], 2);
-//            int currentIndex = 0;
+            int[] current = intervals[0];
             for (int i = 1; i < intervals.length; i++) {
                 if (current[1] < intervals[i][0]) {
-//                    result[currentIndex] = current;
-//                    currentIndex++;
                     result.add(current);
-                    current = Arrays.copyOf(intervals[i], 2);
-                } else if (current[1] >= intervals[i][0] && current[1] <= intervals[i][1]) {
-                    current[1] = intervals[i][1];
+                    current = intervals[i];
+                } else  {
+                    current[1] = Math.max(intervals[i][1], current[1]);
                 }
             }
             result.add(current);
-//            result[currentIndex] = current;
             return result.toArray(new int[result.size()][]);
-//            return Arrays.copyOf(result, currentIndex + 1);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

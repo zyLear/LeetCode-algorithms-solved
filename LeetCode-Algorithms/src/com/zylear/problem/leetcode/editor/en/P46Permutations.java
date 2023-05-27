@@ -39,28 +39,27 @@ public class P46Permutations {
         List<List<Integer>> result = new LinkedList<>();
         Stack<Integer> record = new Stack<>();
         Set<Integer> set = new HashSet<>();
-        public List<List<Integer>> permute(int[] nums) {
-            for (int num : nums) {
-                set.add(num);
-            }
-            backtrack(nums);
+        boolean[] visited;
 
+        public List<List<Integer>> permute(int[] nums) {
+            visited = new boolean[nums.length];
+            backtrack(nums);
             return result;
         }
 
         private void backtrack(int[] nums) {
-            if (set.isEmpty()) {
+            if (record.size() == nums.length) {
                 result.add(new ArrayList<>(record));
                 return;
             }
-            List<Integer> temp = new ArrayList<>(set);
-            for (Integer integer : temp) {
-                record.push(integer);
-                set.remove(integer);
-
-                backtrack( nums);
-                set.add(integer);
-                record.pop();
+            for (int i = 0; i < nums.length; i++) {
+                if (!visited[i]) {
+                    record.push(nums[i]);
+                    visited[i] = true;
+                    backtrack(nums);
+                    visited[i] = false;
+                    record.pop();
+                }
             }
 
         }

@@ -71,9 +71,32 @@ public class P57InsertInterval {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+        //使用合并思路
         public int[][] insert(int[][] intervals, int[] newInterval) {
 
-//            Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
+            List<int[]> result = new ArrayList<>();
+
+            int[] current = newInterval;
+            for (int i = 0; i < intervals.length; i++) {
+                if (current[1]<intervals[i][0]) {
+                    result.add(current);
+                    current = intervals[i];
+                } else if (current[0] > intervals[i][1]) {
+                    result.add(intervals[i]);
+                } else {
+                    current[0] = Math.min(current[0], intervals[i][0]);
+                    current[1] = Math.max(current[1], intervals[i][1]);
+                }
+            }
+            result.add(current);
+
+            return result.toArray(new int[result.size()][]);
+
+        }
+
+        public int[][] insert1(int[][] intervals, int[] newInterval) {
+
             List<int[]> result = new ArrayList<>();
 
             int[] current = Arrays.copyOf(newInterval, 2);
@@ -98,23 +121,6 @@ public class P57InsertInterval {
 
         }
 
-//        private int findIndex(int[] newInterval, List<int[]> ints, int lower, int upper) {
-//            while (lower <= upper) {
-//
-//                int mid = lower + ((upper - lower) / 2);
-//                if (ints.get(mid)[0] == newInterval[0]) {
-//                    return mid;
-//                } else if (newInterval[0] < ints.get(mid)[0]) {
-//                    upper = mid - 1;
-//                } else {
-//                    lower = mid + 1;
-//                }
-//
-//                lower++;
-//                upper--;
-//            }
-//            return upper;
-//        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

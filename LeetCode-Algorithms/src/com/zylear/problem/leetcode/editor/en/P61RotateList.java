@@ -72,10 +72,12 @@ public class P61RotateList {
 
             ListNode slow = head;
             ListNode fast = head;
-            while (n-- > 0) {
+            //倒数第n位
+            //fast指针只需要移动n-1次
+            for (int i = 0; i < n - 1; i++) {
                 fast = fast.next;
             }
-            while (fast != null) {
+            while (fast.next != null) {
                 fast = fast.next;
                 slow = slow.next;
             }
