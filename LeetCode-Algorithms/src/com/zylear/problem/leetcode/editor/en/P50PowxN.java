@@ -61,7 +61,7 @@ public class P50PowxN {
             if (n == 0) {
                 return 1;
             }
-            if (n % 2 == 1) {
+            if ((n & 1) == 1) {
                 return pox(x, n - 1) * x;
             } else {
                 double pox = pox(x, n / 2);
