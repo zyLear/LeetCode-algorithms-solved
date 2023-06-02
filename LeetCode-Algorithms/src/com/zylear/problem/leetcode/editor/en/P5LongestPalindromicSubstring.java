@@ -52,11 +52,12 @@ public class P5LongestPalindromicSubstring {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
         public String longestPalindrome(String s) {
             if (s == null || s.length() == 0) {
                 return s;
             }
-            //dp[n]代表以array[m][]结尾最大回文数开始坐标
+            //dp[n][m]代表以array以n开始m结尾是否是回文数
             boolean dp[][] = new boolean[s.length()][s.length()];
             for (int i = 0; i < s.length(); i++) {
                 dp[i][i] = true;
@@ -68,17 +69,16 @@ public class P5LongestPalindromicSubstring {
 
             for (int j = 0; j < s.length(); j++) {
                 for (int i = 0; i < j; i++) {
-                    if (!dp[i][j]) {
-                        if (i + 1 <= j - 1) {
-                            dp[i][j] = dp[i + 1][j - 1] && s.charAt(i) == s.charAt(j);
-                        } else {
-                            dp[i][j] = s.charAt(i) == s.charAt(j);
-                        }
-                        if (dp[i][j] && j - i + 1 > max) {
-                            max = j - i + 1;
-                            resultI = i;
-                            resultJ = j;
-                        }
+                    boolean b = s.charAt(i) == s.charAt(j);
+                    if (i + 1 <= j - 1) {
+                        dp[i][j] = dp[i + 1][j - 1] && b;
+                    } else {
+                        dp[i][j] = b;
+                    }
+                    if (dp[i][j] && j - i + 1 > max) {
+                        max = j - i + 1;
+                        resultI = i;
+                        resultJ = j;
                     }
                 }
             }
