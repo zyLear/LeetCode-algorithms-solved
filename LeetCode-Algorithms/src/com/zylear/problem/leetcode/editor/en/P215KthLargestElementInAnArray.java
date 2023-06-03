@@ -45,18 +45,17 @@ public class P215KthLargestElementInAnArray {
             if (start >= end) {
                 return;
             }
-            int temp = nums[start];
             int endIndex = end;
             int startIndex = start;
 
             while (startIndex < endIndex) {
 
-                while (startIndex < endIndex && temp <= nums[endIndex]) {
+                while (startIndex < endIndex && nums[startIndex] <= nums[endIndex]) {
                     endIndex--;
                 }
                 swap(nums, startIndex, endIndex);
 
-                while (startIndex < endIndex && temp >= nums[startIndex]) {
+                while (startIndex < endIndex && nums[startIndex] <= nums[endIndex]) {
                     startIndex++;
                 }
                 swap(nums, startIndex, endIndex);
@@ -64,7 +63,8 @@ public class P215KthLargestElementInAnArray {
             //跳出循环的时候  startIndex == endIndex  也就是找到的那个坐标
             if (startIndex == destIndex) {
                 return;
-            } else if (destIndex < startIndex) {
+            }
+            if (destIndex < startIndex) {
                 sort(nums, start, startIndex - 1, destIndex);
             } else {
                 sort(nums, startIndex + 1, end, destIndex);

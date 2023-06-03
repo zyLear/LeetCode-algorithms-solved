@@ -47,8 +47,7 @@ public class P31NextPermutation {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         // 1  2   4  9  5  3
-        // 1  2   9  4  5  3
-        // ---- 1  2  5  3  4  9
+        // 1  2   5  3  4  9
 //        public void nextPermutation(int[] nums) {
 //            nextPermutation(nums, 0, nums.length - 1);
 //        }

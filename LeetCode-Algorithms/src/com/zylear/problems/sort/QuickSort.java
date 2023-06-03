@@ -13,8 +13,39 @@ public class QuickSort {
         System.out.println(Arrays.asList(array));
     }
 
+    public static void quickSort(Integer[] array,int left, int right){
 
-    public static void quickSort(Integer[] array, int low, int high) {
+        if (left >= right) {
+            return;
+        }
+
+        int start = left;
+        int end = right;
+        while (left < right) {
+
+            while (left < right && array[right] >= array[left]) {
+                right--;
+            }
+            swap(array, left, right);
+
+            while (left < right && array[right] >= array[left]) {
+                left++;
+            }
+            swap(array, left, right);
+        }
+
+        quickSort(array, start, left - 1);
+        quickSort(array, left + 1, end);
+
+
+    }
+
+
+
+
+
+
+    public static void quickSort1(Integer[] array, int low, int high) {
         int lowIndex, highIndex, temp;
         if (low >= high) {
             return;
