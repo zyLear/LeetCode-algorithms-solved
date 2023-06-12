@@ -52,7 +52,7 @@ public class P45JumpGameIi {
             int jmp = 0;
             int lastPosition = nums.length - 1;
 
-            while (lastPosition != 0) {
+            while (true) {
                 //从前往后遍历 很重要 可以找到第一个到达的点
                 for (int i = 0; i < lastPosition; i++) {
                     //第一个到达目标的点 把目标转移成i
@@ -62,8 +62,10 @@ public class P45JumpGameIi {
                         break;
                     }
                 }
+                if (lastPosition == 0) {
+                    return jmp;
+                }
             }
-            return jmp;
         }
 
 
