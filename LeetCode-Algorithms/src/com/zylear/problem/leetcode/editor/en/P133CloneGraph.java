@@ -80,44 +80,40 @@ package com.zylear.problem.leetcode.editor.en;
 // 👍 2625 👎 1610
 
 
-import java.util.ArrayList;
-import java.util.List;
+import com.zylear.problem.leetcode.editor.en.base.Node;
 
-public class P133CloneGraph{
+import java.util.HashMap;
+import java.util.Map;
+
+public class P133CloneGraph {
     public static void main(String[] args) {
         // Solution solution = new P133CloneGraph().new Solution();
         // TO TEST
     }
-    
+
     //leetcode submit region begin(Prohibit modification and deletion)
-/*
-// Definition for a Node.
-class Node {
-    public int val;
-    public List<Node> neighbors;
-    public Node() {
-        val = 0;
-        neighbors = new ArrayList<Node>();
-    }
-    public Node(int _val) {
-        val = _val;
-        neighbors = new ArrayList<Node>();
-    }
-    public Node(int _val, ArrayList<Node> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-}
-*/
 
     class Solution {
-//        public Node cloneGraph(Node node) {
-//            System.out.println(node.val);
-//            return node;
-//        }
+
+        //利用到了spring 解决循环依赖的思想，加一个一级缓存已足够
+        Map<Integer, Node> map = new HashMap<>();
+        public Node cloneGraph(Node node) {
+            if (node == null) {
+                return null;
+            }
+            if (map.containsKey(node.val)) {
+                return map.get(node.val);
+            } else {
+                Node cloneNode = new Node(node.val);
+                map.put(node.val, cloneNode);
+                for (Node neighbor : node.neighbors) {
+                    cloneNode.neighbors.add(cloneGraph(neighbor));
+                }
+                return cloneNode;
+            }
+        }
     }
     //leetcode submit region end(Prohibit modification and deletion)
-
 
 
 }
