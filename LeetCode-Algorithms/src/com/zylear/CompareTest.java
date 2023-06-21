@@ -1,9 +1,18 @@
 package com.zylear;
 
-public class Main {
+public class CompareTest {
 
     public static void main(String[] args) {
-        System.out.println("".matches("."));
+
+
+        long n = 1000000L;
+
+        long count = n * (n - 1) / 2;
+        System.out.println(count);
+
+        System.out.println(800000L * 200000L / (double) count);
+
+//        System.out.println("".matches("."));
 
 //        System.out.println(Integer.highestOneBit(-1231233243));
 
