@@ -1,181 +1,183 @@
 package com.zylear;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.function.BiFunction;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ReadWriteLock {
 
-    /**
-     * 已经获取读锁的线程
-     */
-    private ConcurrentHashMap<Thread, Integer> currentOccupyReadLockThreads =
-            new ConcurrentHashMap<>();
-    /**
-     * 写锁等待数量
-     */
-    private int writeLockWaitCount = 0;
-    /**
-     * 已经获取写锁的线程
-     */
-    private Thread currentOccupyWriteThread = null;
-    /**
-     * 获取写锁的线程进入写锁次数（重入功能）
-     */
-    private int writeLockEnterCount = 0;
+    public static class Sync extends AbstractQueuedSynchronizer {
 
-    private volatile AtomicInteger status;
+        static final int SHARED_SHIFT = 16;
+        static final int SHARED_UNIT = (1 << SHARED_SHIFT);
+        static final int MAX_COUNT = (1 << SHARED_SHIFT) - 1;
+        static final int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;
 
-    private int READ = 1;
+        ThreadLocal<Integer> readLockCountHolder = new ThreadLocal<>();
 
-    /**
-     * 获取读锁
-     *
-     * @throws InterruptedException
-     */
-    public void readLock() throws InterruptedException {
-        Thread currentThread = Thread.currentThread();
-        boolean succ =false;
-        int retryCount = 3;
-        while (!succ) {
-            retryCount--;
-            if (retryCount < 0) {
-                throw new RuntimeException("get readLock fail");
-            }
-            int oldStatus = status.get();
-            if (oldStatus == 0 || oldStatus == 1) {
-                succ = status.compareAndSet(oldStatus, READ);
-                if (succ) {
+        static int sharedCount(int c) {
+            return c >>> SHARED_SHIFT;
+        }
 
-                    //
-                    Integer count = currentOccupyReadLockThreads.computeIfAbsent(currentThread, k -> 0);
-                    currentOccupyReadLockThreads.put(currentThread, count + 1);
+        static int exclusiveCount(int c) {
+            return c & EXCLUSIVE_MASK;
+        }
 
+
+        @Override
+        protected int tryAcquireShared(int arg) {
+            Thread current = Thread.currentThread();
+
+            while (true) {
+                int c = getState();
+                if (exclusiveCount(c) != 0) {
+                    if (getExclusiveOwnerThread() != current)
+                        return -1;
+                } else if (hasQueuedPredecessors()) {
+                    Integer lockEnterCount = readLockCountHolder.get();
+                    if (lockEnterCount == null || lockEnterCount == 0) {
+                        return -1;
+                    }
+                }
+
+                if (sharedCount(c) == MAX_COUNT)
+                    throw new Error("Maximum lock count exceeded");
+                if (compareAndSetState(c, c + SHARED_UNIT)) {
+                    Integer lockEnterCount = readLockCountHolder.get();
+                    if (lockEnterCount == null) {
+                        lockEnterCount = 0;
+                    }
+                    lockEnterCount++;
+                    readLockCountHolder.set(lockEnterCount);
+                    return 1;
                 }
             }
+        }
 
-            java.util.concurrent.locks.ReadWriteLock readWriteLock=new ReentrantReadWriteLock();
-            Lock writeLock = readWriteLock.writeLock();
-            Lock lock = readWriteLock.readLock();
-            readWriteLock.writeLock();
-            lock.lock();
-            writeLock.lock();
+        @Override
+        protected boolean tryReleaseShared(int arg) {
+
+            Integer count = readLockCountHolder.get();
+            if (count == null || count == 0) {
+                throw new RuntimeException("current thread don't hold read lock");
+            }
+            if (count == 1) {
+                readLockCountHolder.remove();
+            } else {
+                count--;
+                readLockCountHolder.set(count);
+            }
+
+            while (true) {
+                int c = getState();
+                int nextc = c - SHARED_UNIT;
+                if (compareAndSetState(c, nextc))
+                    return nextc == 0;
+            }
+        }
+
+        @Override
+        protected boolean tryAcquire(int acquires) {
+
+            Thread current = Thread.currentThread();
+            int c = getState();
+            int w = exclusiveCount(c);
+            if (c != 0) {
+                // 有获取了读锁或者获取写锁不是当前线程
+                if (w == 0 || current != getExclusiveOwnerThread()) {
+                    return false;
+                }
+                if (w + exclusiveCount(acquires) > MAX_COUNT) {
+                    throw new Error("Maximum lock count exceeded");
+                }
+                setState(c + acquires);
+                return true;
+            }
+            if (hasQueuedPredecessors() ||
+                    !compareAndSetState(c, c + acquires)) {
+                return false;
+            }
+            setExclusiveOwnerThread(current);
+            return true;
 
         }
 
+        @Override
+        protected boolean tryRelease(int releases) {
+            if (!isHeldExclusively()) {
+                throw new IllegalMonitorStateException();
+            }
+            int nextc = getState() - releases;
+            boolean free = exclusiveCount(nextc) == 0;
+            if (free) {
+                setExclusiveOwnerThread(null);
+            }
+            setState(nextc);
+            return free;
+        }
 
-//        int retryCount = 3;
-//
-//        while (!canRequestReadLock(currentThread) ) {
-//            retryCount--;
-//            if (retryCount < 0) {
-//                throw new RuntimeException("get readLock fail");
-//            }
-//            wait();
-//        }
-//        Integer count = currentOccupyReadLockThreads.computeIfAbsent(currentThread, k -> 0);
-//        currentOccupyReadLockThreads.put(currentThread, count + 1);
+        @Override
+        protected final boolean isHeldExclusively() {
+            return getExclusiveOwnerThread() == Thread.currentThread();
+        }
     }
 
-    /**
-     * 判断当前线程是否可以获取读锁
-     *
-     * @param currentThread
-     * @return
-     */
-    private boolean canRequestReadLock(Thread currentThread) {
-        if (currentOccupyWriteThread == currentThread) {
-            return true;
-        }
-        if (currentOccupyWriteThread != null) {
-            return false;
-        }
-        if (currentOccupyReadLockThreads.containsKey(currentThread)) {
-            return true;
-        }
-        if (writeLockWaitCount > 0) {
-            return false;
-        }
-        return true;
+    private Sync sync;
+
+    public ReadWriteLock() {
+        this.sync = new Sync();
     }
 
-    /**
-     * 释放读锁
-     */
+    public void readLock() {
+        sync.acquireShared(1);
+    }
+
     public void readUnlock() {
-        Thread currentThread = Thread.currentThread();
-        if (!currentOccupyReadLockThreads.containsKey(currentThread)) {
-            throw new RuntimeException("current thread don't hold read lock");
-        }
-
-
-        int enterLockCount = currentOccupyReadLockThreads.get(currentThread);
-        if (enterLockCount == 1) {
-            currentOccupyReadLockThreads.remove(currentThread);
-        } else {
-            currentOccupyReadLockThreads.put(currentThread, (enterLockCount - 1));
-        }
-        //通知等待的线程
-//        notifyAll();
+        sync.releaseShared(1);
     }
 
-    /**
-     * 获取写锁
-     *
-     * @throws InterruptedException
-     */
-    public synchronized void writeLock() throws InterruptedException {
-        writeLockWaitCount++;
-        Thread currentThread = Thread.currentThread();
-        while (!canRequestWriteLock(currentThread)) {
-            wait();
-        }
-        writeLockEnterCount++;
-        writeLockWaitCount--;
-        currentOccupyWriteThread = currentThread;
+    public void writeLock() {
+        sync.acquire(1);
     }
 
-    /**
-     * 释放写锁
-     */
-    public synchronized void writeUnlock() {
-        Thread currentThread = Thread.currentThread();
-        if (currentOccupyWriteThread != currentThread) {
-            throw new RuntimeException("current thread don't hold write lock");
-        }
-        writeLockEnterCount--;
-        if (writeLockEnterCount == 0) {
-            currentOccupyWriteThread = null;
-        }
-        //通知等待的线程
-        notifyAll();
+    public void writeUnlock() {
+        sync.release(1);
     }
 
-    /**
-     * 判断当前线程是否可以获取写锁
-     *
-     * @param currentThread
-     * @return
-     */
-    private boolean canRequestWriteLock(Thread currentThread) {
-        if (currentOccupyReadLockThreads.size() == 1 &&
-                currentOccupyReadLockThreads.containsKey(currentThread)) {
-            return true;
-        }
-        if (currentOccupyReadLockThreads.size() > 0) {
-            return false;
-        }
-        if (currentOccupyWriteThread == null) {
-            return true;
-        }
-        if (currentOccupyWriteThread != currentThread) {
-            return false;
-        }
-        return true;
+
+    public static void main(String[] args) throws InterruptedException {
+        ReadWriteLock readWriteLock = new ReadWriteLock();
+        readWriteLock.readLock();
+        readWriteLock.readLock();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("write start");
+                readWriteLock.writeLock();
+                readWriteLock.writeUnlock();
+                System.out.println("write end");
+            }
+        }).start();
+        Thread.sleep(2000);
+        System.out.println("read1 end");
+        readWriteLock.readUnlock();
+        Thread.sleep(2000);
+        System.out.println("read2 end");
+        readWriteLock.readUnlock();
+
+
+//        java.util.concurrent.locks.ReadWriteLock readWriteLock1;
+//        Lock lock = readWriteLock1.writeLock();
+//        Lock lock1 = readWriteLock1.readLock();
+//        Condition condition1 = lock1.newCondition();
+//        condition1.await();
+//        Condition condition = lock.newCondition();
+//        ReentrantLock reentrantLock;
+//        reentrantLock.newCondition();
+
     }
 
 }
