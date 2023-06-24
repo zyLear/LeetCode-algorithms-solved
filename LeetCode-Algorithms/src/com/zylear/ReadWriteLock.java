@@ -1,9 +1,6 @@
 package com.zylear;
 
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ReadWriteLock {
 
@@ -143,41 +140,6 @@ public class ReadWriteLock {
 
     public void writeUnlock() {
         sync.release(1);
-    }
-
-
-    public static void main(String[] args) throws InterruptedException {
-        ReadWriteLock readWriteLock = new ReadWriteLock();
-        readWriteLock.readLock();
-        readWriteLock.readLock();
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("write start");
-                readWriteLock.writeLock();
-                readWriteLock.writeUnlock();
-                System.out.println("write end");
-            }
-        }).start();
-        Thread.sleep(2000);
-        System.out.println("read1 end");
-        readWriteLock.readUnlock();
-        Thread.sleep(2000);
-        System.out.println("read2 end");
-        readWriteLock.readUnlock();
-
-
-//        java.util.concurrent.locks.ReadWriteLock readWriteLock1;
-//        Lock lock = readWriteLock1.writeLock();
-//        Lock lock1 = readWriteLock1.readLock();
-//        Condition condition1 = lock1.newCondition();
-//        condition1.await();
-//        Condition condition = lock.newCondition();
-//        ReentrantLock reentrantLock;
-//        reentrantLock.newCondition();
-
     }
 
 }

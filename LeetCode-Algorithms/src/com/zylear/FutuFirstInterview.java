@@ -1,6 +1,8 @@
 package com.zylear;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FutuFirstInterview {
     /*
@@ -25,7 +27,7 @@ public class FutuFirstInterview {
 
     public static void main(String[] args) {
         int count = 30;
-        calculate(count);
+        System.out.println(calculateNode(count));
     }
 
     private static HashMap<Integer, Integer> priceMap = new HashMap<Integer, Integer>() {{
@@ -36,6 +38,10 @@ public class FutuFirstInterview {
 
     //6000笔的费用
     private static HashMap<Integer, Integer> preTotalPriceMap = new HashMap<Integer, Integer>() {{
+        put(0, 0);
+        put(5, 150);
+        put(20, (20 - 5) * 15 + get(5));
+
 //        put(6000,)
     }};
 
@@ -48,6 +54,58 @@ public class FutuFirstInterview {
         }
         return 0;
 
+    }
+
+    private static int calculateNode(int count) {
+        List<PriceNode> list = new ArrayList<>();
+        list.add(new PriceNode(1, 5, 30, 0));
+        list.add(new PriceNode(6, 20, 15, list.get(0).totalNodePrice));
+        list.add(new PriceNode(21, 50, 10, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(51, 100, 9, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(101, 500, 8, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(501, 1000, 7, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(1001, 2000, 6, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(2001, 3000, 5, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(3001, 3000, 4, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(4001, 3000, 3, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(5001, 3000, 2, list.get(list.size() - 1).totalNodePrice));
+        list.add(new PriceNode(6001, 10000000, 1, list.get(list.size() - 1).totalNodePrice));
+
+        int left = 0;
+        int right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            PriceNode priceNode = list.get(mid);
+            if (priceNode.start == count) {
+                left = mid;
+                break;
+            } else if (priceNode.start > count) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        PriceNode priceNode = list.get(left);
+        return (count - priceNode.start + 1) * priceNode.price + priceNode.preNodeTotalPrice;
+    }
+
+    public static class PriceNode {
+
+        public int start;
+        public int end;
+        public int price;
+        public int totalNodePrice;
+        public int preNodeTotalPrice;
+
+
+        public PriceNode(int start, int end, int price, int preNodeTotalPrice) {
+            this.start = start;
+            this.end = end;
+            this.price = price;
+            this.preNodeTotalPrice = preNodeTotalPrice;
+            totalNodePrice = (end - start + 1) * price + preNodeTotalPrice;
+        }
     }
 
 
