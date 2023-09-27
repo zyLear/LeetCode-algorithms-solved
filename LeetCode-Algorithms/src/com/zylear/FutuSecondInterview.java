@@ -13,14 +13,14 @@ public class FutuSecondInterview {
         double hoursIndex = hours * 5;
         double diff = 0;
 
-        hoursIndex = hoursIndex + ((double)minutes / 60) * 5;
+        hoursIndex = hoursIndex + ((double) minutes / 60) * 5;
 
         diff = Math.abs(hoursIndex - minutes);
 
         if (diff > 30) {
             diff = 60 - diff;
         }
-        return ( diff / 60) * 360;
+        return (diff / 60) * 360;
     }
 
 }
